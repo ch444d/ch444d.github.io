@@ -27,7 +27,6 @@ const timerDisplay  = document.getElementById("timer");
 
 // --------- Helper: render math with MathJax once it's ready ---------
 function renderMath() {
-  // MathJax v3 exposes typesetPromise; wait until it's defined
   if (window.MathJax && MathJax.typesetPromise) {
     MathJax.typesetPromise();
   }
@@ -54,6 +53,7 @@ function applyFilter() {
   } else {
     filteredProblems = allProblems.filter(p => p.set === setValue);
   }
+
   currentProblem = null;
   problemMeta.textContent = "Filter applied. Click \"New Problem\" to begin.";
   problemExpression.innerHTML = "";
@@ -96,6 +96,7 @@ function pickRandomProblem() {
     renderMath();
     return;
   }
+
   const idx = Math.floor(Math.random() * filteredProblems.length);
   currentProblem = filteredProblems[idx];
 
