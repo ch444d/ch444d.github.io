@@ -1,615 +1,1263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Calc 1 – Section 5.3 Practice</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Calculus Practice — Chapter 5</title>
 
-  <!-- MathJax configuration (simple, auto-typeset) -->
-  <script>
-    window.MathJax = {
-      tex: {
-        inlineMath: [['\\(', '\\)'], ['$', '$']]
-      }
-    };
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- MathJax for LaTeX Rendering -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      margin: 0;
-      padding: 1.5rem;
-      background: #f4f4f5;
-      color: #111827;
-    }
-    .app {
-      max-width: 800px;
-      margin: 0 auto;
-      background: #ffffff;
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
-    }
-    h1 {
-      margin-top: 0;
-      font-size: 1.5rem;
-    }
-    .subtitle {
-      font-size: 0.9rem;
-      color: #4b5563;
-      margin-top: -0.5rem;
-      margin-bottom: 1rem;
-    }
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-      align-items: center;
-    }
-    select, button {
-      padding: 0.4rem 0.7rem;
-      border-radius: 0.5rem;
-      border: 1px solid #d4d4d8;
-      background: #f9fafb;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-    button.primary {
-      background: #2563eb;
-      color: white;
-      border-color: #2563eb;
-    }
-    button.secondary {
-      background: #e5e7eb;
-    }
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .problem-card {
-      border-radius: 0.75rem;
-      padding: 1rem;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 1rem;
-      min-height: 120px;
-    }
-    .problem {
-      display: none;
-    }
-    .problem.active {
-      display: block;
-    }
-    .meta {
-      font-size: 0.85rem;
-      color: #6b7280;
-      margin-bottom: 0.25rem;
-    }
-    .statement {
-      font-size: 1.05rem;
-      margin-bottom: 0.75rem;
-    }
-    .answer {
-      margin-top: 0.5rem;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      background: #ecfdf5;
-      border: 1px solid #bbf7d0;
-      font-size: 0.98rem;
-    }
-    .answer.hidden {
-      display: none;
-    }
-    #noProblemMessage {
-      font-size: 0.95rem;
-      color: #6b7280;
-    }
-    @media (max-width: 600px) {
-      body {
-        padding: 0.75rem;
-      }
-      .app {
-        padding: 1rem;
-      }
-      .controls {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      select, button {
-        width: 100%;
-      }
-    }
-  </style>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f9fc;
+    color: #111827;
+  }
+
+  .app {
+    max-width: 900px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 25px rgba(0,0,0,0.08);
+  }
+
+  .title {
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .subtitle {
+    font-size: 1.05rem;
+    margin-bottom: 1.4rem;
+    color: #555;
+  }
+
+  select, button {
+    font-size: 1rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: 0.6rem;
+    border: 1px solid #d1d5db;
+  }
+
+  .controls {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1.3rem;
+    flex-wrap: wrap;
+  }
+
+  button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  button.secondary {
+    background: #4b5563;
+  }
+
+  button:hover {
+    filter: brightness(0.95);
+  }
+
+  .hidden { display: none; }
+
+  #noProblemMessage {
+    color:#7b8794;
+    margin-top:1.2rem;
+    font-size:1.05rem;
+    text-align:center;
+  }
+
+  .problem {
+    margin-top: 0.75rem;
+  }
+
+  .meta {
+    font-size: 0.92rem;
+    color:#6b7280;
+    margin-bottom:0.2rem;
+  }
+
+  .meta.instruction {
+    font-size: 0.9rem;
+    color:#4b5563;
+  }
+
+  .statement {
+    font-size:1.25rem;
+    margin-top:0.6rem;
+    margin-bottom:0.65rem;
+  }
+
+  .answer {
+    font-size:1.15rem;
+    margin-top:0.65rem;
+    padding:1rem;
+    border-radius:0.6rem;
+    background:#f3f4f6;
+  }
+
+  /* TRIG CHEAT SHEET STYLING */
+  .trig-toggle-row{margin-bottom:1rem;}
+  .trig-cheatsheet {
+    border-radius:0.75rem;
+    padding:1rem;
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    margin-bottom:1.25rem;
+    font-size:0.95rem;
+  }
+  .trig-cheatsheet h2{margin-top:0;margin-bottom:0.5rem;font-size:1.1rem;}
+  .trig-cheatsheet h3{margin-bottom:0.3rem;margin-top:0.8rem;font-size:1rem;}
+  .trig-cheatsheet ul{margin-top:0.2rem;margin-bottom:0.4rem;padding-left:1.4rem;}
+</style>
 </head>
+
 <body>
-  <div class="app">
-    <h1>Calc 1 – Section 5.3 Practice</h1>
-    <p class="subtitle">
-      Random practice for antiderivatives and basic integrals (Book §5.3).
-    </p>
 
-    <div class="controls">
-      <label>
-        Set:
-        <select id="setSelect">
-          <option value="all">All Sets</option>
-          <option value="set1">Set 1 – General antiderivative</option>
-          <option value="set2">Set 2 – Indefinite integrals</option>
-        </select>
-      </label>
+<div class="app">
 
-      <button id="newBtn" class="primary">New Problem</button>
-      <button id="showBtn" class="secondary" disabled>Show Answer</button>
-    </div>
-
-    <div class="problem-card">
-      <div id="noProblemMessage">
-        No problem loaded yet. Choose a set (or leave “All Sets”) and click
-        <strong>New Problem</strong>.
-      </div>
-
-      <div id="problems">
-
-        <!-- ====================== SET 1 ====================== -->
-        <div class="problem"
-             data-set="set1"
-             data-number="1"
-             data-section="5.3">
-          <div class="meta">
-            Set 1 – General antiderivative · Problem 1 (Book §5.3)
-          </div>
-          <div class="statement">
-            Find the general antiderivative of \( f(x) = 18x^{2} \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( F(x) = 6x^{3} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set1"
-             data-number="2"
-             data-section="5.3">
-          <div class="meta">
-            Set 1 – General antiderivative · Problem 2 (Book §5.3)
-          </div>
-          <div class="statement">
-            Find the general antiderivative of \( f(x) = x^{-3/5} \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( F(x) = \dfrac{5}{2}x^{2/5} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set1"
-             data-number="3"
-             data-section="5.3">
-          <div class="meta">
-            Set 1 – General antiderivative · Problem 3 (Book §5.3)
-          </div>
-          <div class="statement">
-            Find the general antiderivative of \( f(x) = 2x^{4} - 24x^{2} \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( F(x) = \dfrac{2}{5}x^{5} - 8x^{3} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set1"
-             data-number="4"
-             data-section="5.3">
-          <div class="meta">
-            Set 1 – General antiderivative · Problem 4 (Book §5.3)
-          </div>
-          <div class="statement">
-            Find the general antiderivative of \( f(x) = 9x + 15x^{-2} \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( F(x) = \dfrac{9}{2}x^{2} - \dfrac{15}{x} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set1"
-             data-number="5"
-             data-section="5.3">
-          <div class="meta">
-            Set 1 – General antiderivative · Problem 5 (Book §5.3)
-          </div>
-          <div class="statement">
-            Find the general antiderivative of
-            \( f(x) = 2\cos(x) - 9\sin(x) \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( F(x) = 2\sin(x) + 9\cos(x) + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set1"
-             data-number="6"
-             data-section="5.3">
-          <div class="meta">
-            Set 1 – General antiderivative · Problem 6 (Book §5.3)
-          </div>
-          <div class="statement">
-            Find the general antiderivative of
-            \( f(x) = 4x^{7} - 3\cos(x) \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( F(x) = \tfrac{1}{2}x^{8} - 3\sin(x) + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set1"
-             data-number="7"
-             data-section="5.3">
-          <div class="meta">
-            Set 1 – General antiderivative · Problem 7 (Book §5.3)
-          </div>
-          <div class="statement">
-            Find the general antiderivative of
-            \( f(x) = \sin(2x) + 12\cos(3x) \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( F(x) = -\tfrac{1}{2}\cos(2x) + 4\sin(3x) + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set1"
-             data-number="8"
-             data-section="5.3">
-          <div class="meta">
-            Set 1 – General antiderivative · Problem 8 (Book §5.3)
-          </div>
-          <div class="statement">
-            Find the general antiderivative of
-            \( f(x) = \sin(4 - 9x) \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( F(x) = \dfrac{1}{9}\cos(4 - 9x) + C \).
-          </div>
-        </div>
-
-        <!-- ====================== SET 2 ====================== -->
-        <div class="problem"
-             data-set="set2"
-             data-number="10"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 10 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate \( \displaystyle \int (9x + 2)\,dx \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( \dfrac{9}{2}x^{2} + 2x + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="11"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 11 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate \( \displaystyle \int (4 - 18x)\,dx \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( 4x - 9x^{2} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="12"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 12 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate \( \displaystyle \int x^{-3}\,dx \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( -\dfrac{1}{2x^{2}} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="13"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 13 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate \( \displaystyle \int t^{-6/11}\,dt \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( \dfrac{11}{5}t^{5/11} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="14"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 14 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate \( \displaystyle \int (5t^{3} - t^{-3})\,dt \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( \dfrac{5}{4}t^{4} + \dfrac{1}{2}t^{-2} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="15"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 15 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate \( \displaystyle \int (18t^{5} - 10t^{4} - 28t)\,dt \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( 3t^{6} - 2t^{5} - 14t^{2} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="16"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 16 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate \( \displaystyle \int 14s^{9/5}\,ds \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( 5s^{14/5} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="17"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 17 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate
-            \( \displaystyle \int \bigl(z^{-4/5} - z^{2/3} + z^{5/4}\bigr)\,dz \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( 5z^{1/5} - \dfrac{3}{5}z^{5/3} + \dfrac{4}{9}z^{9/4} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="18"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 18 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate \( \displaystyle \int \frac{3}{2}\,dx \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( \dfrac{3}{2}x + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="19"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 19 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate
-            \( \displaystyle \int \frac{1}{\sqrt[3]{x}}\,dx
-               = \int x^{-1/3}\,dx \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( \dfrac{3}{2}x^{2/3} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="20"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 20 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate \( \displaystyle \int x^{-4/3}\,dx \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( -3x^{-1/3} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="21"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 21 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate \( \displaystyle \int 36t^{-3}\,dt \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( -18t^{-2} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="22"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 22 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate
-            \( \displaystyle \int x(x^{2} - 4)\,dx \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( \dfrac{1}{4}x^{4} - 2x^{2} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="23"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 23 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate
-            \( \displaystyle \int (t^{1/2} + 1)(t + 1)\,dt \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( \dfrac{2}{5}t^{5/2} + \dfrac{2}{3}t^{3/2}
-               + \dfrac{1}{2}t^{2} + t + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="24"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 24 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate
-            \( \displaystyle \int \frac{12 - z}{\sqrt{z}}\,dz \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( 24\sqrt{z} - \dfrac{2}{3}z^{3/2} + C \).
-          </div>
-        </div>
-
-        <div class="problem"
-             data-set="set2"
-             data-number="25"
-             data-section="5.3">
-          <div class="meta">
-            Set 2 – Indefinite integrals · Problem 25 (Book §5.3)
-          </div>
-          <div class="statement">
-            Evaluate
-            \( \displaystyle \int \frac{x^{3} - 4}{x^{2}}\,dx \).
-          </div>
-          <div class="answer hidden">
-            <strong>Answer:</strong>
-            \( \dfrac{1}{2}x^{2} + \dfrac{4}{x} + C \).
-          </div>
-        </div>
-
-      </div>
-    </div>
+  <div class="title">Calculus Practice — Chapter 5</div>
+  <div class="subtitle">
+    Random problems from Sections 5.1, 5.3, 5.4, 5.6, and 5.7. Choose a section, get a problem, then reveal the answer.
   </div>
 
-  <script>
-    const allProblems = Array.from(document.querySelectorAll('.problem'));
-    const setSelect   = document.getElementById('setSelect');
-    const newBtn      = document.getElementById('newBtn');
-    const showBtn     = document.getElementById('showBtn');
-    const noMsg       = document.getElementById('noProblemMessage');
+  <!-- Controls -->
+  <div class="controls">
+    <select id="sectionSelect">
+      <option value="all">All Sections</option>
+    </select>
 
-    let currentProblem = null;
+    <button id="newBtn">New Problem</button>
+    <button id="showBtn">Show Answer</button>
+  </div>
 
-    function eligibleProblems() {
-      const setValue = setSelect.value;
-      if (setValue === 'all') return allProblems;
-      return allProblems.filter(p => p.dataset.set === setValue);
+  <!-- TRIG CHEAT SHEET TOGGLE -->
+  <div class="trig-toggle-row">
+    <button id="trigToggleBtn" class="secondary">Show Trig Cheat Sheet</button>
+  </div>
+
+  <div id="trigCheatSheet" class="trig-cheatsheet hidden">
+    <h2>Trig Reference — Calc I</h2>
+
+    <h3>Basic Identities</h3>
+    <ul>
+      <li>\(\sin^2x + \cos^2x = 1\)</li>
+      <li>\(1 + \tan^2x = \sec^2x\)</li>
+      <li>\(1 + \cot^2x = \csc^2x\)</li>
+    </ul>
+
+    <h3>Quadrant Signs (ASTC)</h3>
+    <ul>
+      <li>Q1 — all positive</li>
+      <li>Q2 — sin positive</li>
+      <li>Q3 — tan positive</li>
+      <li>Q4 — cos positive</li>
+    </ul>
+
+    <h3>Derivatives</h3>
+    <ul>
+      <li>\(\dfrac{d}{dx}\sin x = \cos x\)</li>
+      <li>\(\dfrac{d}{dx}\cos x = -\sin x\)</li>
+      <li>\(\dfrac{d}{dx}\tan x = \sec^2 x\)</li>
+      <li>\(\dfrac{d}{dx}\sec x = \sec x \tan x\)</li>
+      <li>\(\dfrac{d}{dx}\csc x = -\csc x \cot x\)</li>
+      <li>\(\dfrac{d}{dx}\cot x = -\csc^2 x\)</li>
+    </ul>
+
+    <h3>Common Antiderivatives</h3>
+    <ul>
+      <li>\(\displaystyle \int\sin x\,dx = -\cos x + C\)</li>
+      <li>\(\displaystyle \int\cos x\,dx = \sin x + C\)</li>
+      <li>\(\displaystyle \int\sec^2x\,dx = \tan x + C\)</li>
+      <li>\(\displaystyle \int\csc^2x\,dx = -\cot x + C\)</li>
+      <li>\(\displaystyle \int\sec x\tan x\,dx = \sec x + C\)</li>
+      <li>\(\displaystyle \int\csc x\cot x\,dx = -\csc x + C\)</li>
+    </ul>
+  </div>
+
+  <!-- Active problem container -->
+  <div id="problemContainer"></div>
+  <div id="noProblemMessage">Click “New Problem” to get started.</div>
+
+  <!-- Problem bank (templates, hidden) -->
+  <div id="problemBank" class="hidden">
+
+    <!-- SECTION 5.1 -->
+    <div class="problem" data-section="5.1" data-number="47">
+      <div class="meta">Section 5.1 · Problem 47</div>
+      <div class="meta instruction">Calculate the limit of the Riemann sum for the given function and interval. Verify the result using geometry.</div>
+      <div class="statement">\( f(x)=9x,\ 0\le x\le 2 \)</div>
+      <div class="answer">Answer: \( 18 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.1" data-number="48">
+      <div class="meta">Section 5.1 · Problem 48</div>
+      <div class="meta instruction">Calculate the limit of the Riemann sum for the given function and interval. Verify the result using geometry.</div>
+      <div class="statement">\( f(x)=3x+6,\ 1\le x\le 4 \)</div>
+      <div class="answer">Answer: \( \frac{81}{2} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.1" data-number="49">
+      <div class="meta">Section 5.1 · Problem 49</div>
+      <div class="meta instruction">Calculate the limit of the Riemann sum for the given function and interval. Verify the result using geometry.</div>
+      <div class="statement">\( f(x)=\tfrac{1}{2}x+2,\ 0\le x\le 4 \)</div>
+      <div class="answer">Answer: \( 12 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.1" data-number="50">
+      <div class="meta">Section 5.1 · Problem 50</div>
+      <div class="meta instruction">Calculate the limit of the Riemann sum for the given function and interval. Verify the result using geometry.</div>
+      <div class="statement">\( f(x)=4x-2,\ 1\le x\le 3 \)</div>
+      <div class="answer">Answer: \( 12 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.1" data-number="51">
+      <div class="meta">Section 5.1 · Problem 51</div>
+      <div class="meta instruction">Calculate the limit of the Riemann sum for the given function and interval. Verify the result using geometry.</div>
+      <div class="statement">\( f(x)=x,\ 0\le x\le 2 \)</div>
+      <div class="answer">Answer: \( 2 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.1" data-number="52">
+      <div class="meta">Section 5.1 · Problem 52</div>
+      <div class="meta instruction">Calculate the limit of the Riemann sum for the given function and interval. Verify the result using geometry.</div>
+      <div class="statement">\( f(x)=12-4x,\ 2\le x\le 6 \)</div>
+      <div class="answer">Answer: \( -16 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.1" data-number="55">
+      <div class="meta">Section 5.1 · Problem 55</div>
+      <div class="meta instruction">Find a formula for \(R_N\) and compute the area under the graph as a limit.</div>
+      <div class="statement">\( f(x)=x^2,\ 1\le x\le 3 \)</div>
+      <div class="answer">Answer: \( \dfrac{26}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.1" data-number="56">
+      <div class="meta">Section 5.1 · Problem 56</div>
+      <div class="meta instruction">Find a formula for \(R_N\) and compute the area under the graph as a limit.</div>
+      <div class="statement">\( f(x)=x^2,\ -1\le x\le 5 \)</div>
+      <div class="answer">Answer: \( 42 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.1" data-number="57">
+      <div class="meta">Section 5.1 · Problem 57</div>
+      <div class="meta instruction">Find a formula for \(R_N\) and compute the area under the graph as a limit.</div>
+      <div class="statement">\( f(x)=6x^2-4,\ 2\le x\le 5 \)</div>
+      <div class="answer">Answer: \( 222 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.1" data-number="58">
+      <div class="meta">Section 5.1 · Problem 58</div>
+      <div class="meta instruction">Find a formula for \(R_N\) and compute the area under the graph as a limit.</div>
+      <div class="statement">\( f(x)=x^2+7x,\ 6\le x\le 11 \)</div>
+      <div class="answer">Answer: \( \dfrac{4015}{6} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.1" data-number="59">
+      <div class="meta">Section 5.1 · Problem 59</div>
+      <div class="meta instruction">Find a formula for \(R_N\) and compute the area under the graph as a limit.</div>
+      <div class="statement">\( f(x)=x^3-x,\ 0\le x\le 2 \)</div>
+      <div class="answer">Answer: \( 2 \)</div>
+    </div>
+
+    <!-- SECTION 5.3 -->
+    <div class="problem" data-section="5.3" data-number="1">
+      <div class="meta">Section 5.3 · Problem 1</div>
+      <div class="meta instruction">Find the general antiderivative of \(f\) and verify your result by differentiating.</div>
+      <div class="statement">\( f(x)=18x^2 \)</div>
+      <div class="answer">Answer: \( 6x^3 + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="2">
+      <div class="meta">Section 5.3 · Problem 2</div>
+      <div class="meta instruction">Find the general antiderivative of \(f\) and verify your result by differentiating.</div>
+      <div class="statement">\( f(x)=x^{-3/5} \)</div>
+      <div class="answer">Answer: \( \dfrac{5}{2}x^{2/5} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="3">
+      <div class="meta">Section 5.3 · Problem 3</div>
+      <div class="meta instruction">Find the general antiderivative of \(f\) and verify your result by differentiating.</div>
+      <div class="statement">\( f(x)=2x^4-24x^2 \)</div>
+      <div class="answer">Answer: \( \dfrac{2}{5}x^5 - 8x^3 + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="4">
+      <div class="meta">Section 5.3 · Problem 4</div>
+      <div class="meta instruction">Find the general antiderivative of \(f\) and verify your result by differentiating.</div>
+      <div class="statement">\( f(x)=9x+15x^{-2} \)</div>
+      <div class="answer">Answer: \( \dfrac{9}{2}x^2 - \dfrac{15}{x} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="5">
+      <div class="meta">Section 5.3 · Problem 5</div>
+      <div class="meta instruction">Find the general antiderivative of \(f\) and verify your result by differentiating.</div>
+      <div class="statement">\( f(x)=2\cos x - 9\sin x \)</div>
+      <div class="answer">Answer: \( 2\sin x + 9\cos x + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="6">
+      <div class="meta">Section 5.3 · Problem 6</div>
+      <div class="meta instruction">Find the general antiderivative of \(f\) and verify your result by differentiating.</div>
+      <div class="statement">\( f(x)=4x^7 - 3\cos x \)</div>
+      <div class="answer">Answer: \( \dfrac{1}{2}x^8 - 3\sin x + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="7">
+      <div class="meta">Section 5.3 · Problem 7</div>
+      <div class="meta instruction">Find the general antiderivative of \(f\) and verify your result by differentiating.</div>
+      <div class="statement">\( f(x)=\sin(2x)+12\cos(3x) \)</div>
+      <div class="answer">Answer: \( -\tfrac{1}{2}\cos(2x) + 4\sin(3x) + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="8">
+      <div class="meta">Section 5.3 · Problem 8</div>
+      <div class="meta instruction">Find the general antiderivative of \(f\) and verify your result by differentiating.</div>
+      <div class="statement">\( f(x)=\sin(4-9x) \)</div>
+      <div class="answer">Answer: \( \dfrac{1}{9}\cos(9x-4) + C \)</div>
+    </div>
+
+    <!-- 5.3: 10–25 -->
+    <div class="problem" data-section="5.3" data-number="10">
+      <div class="meta">Section 5.3 · Problem 10</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int (9x+2)\,dx \)</div>
+      <div class="answer">Answer: \( \dfrac{9}{2}x^2 + 2x + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="11">
+      <div class="meta">Section 5.3 · Problem 11</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int (4-18x)\,dx \)</div>
+      <div class="answer">Answer: \( 4x - 9x^2 + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="12">
+      <div class="meta">Section 5.3 · Problem 12</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int x^{-3}\,dx \)</div>
+      <div class="answer">Answer: \( -\dfrac{1}{2x^2} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="13">
+      <div class="meta">Section 5.3 · Problem 13</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int t^{-6/11}\,dt \)</div>
+      <div class="answer">Answer: \( \dfrac{11}{5}t^{5/11} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="14">
+      <div class="meta">Section 5.3 · Problem 14</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int (5t^3 - t^{-3})\,dt \)</div>
+      <div class="answer">Answer: \( \dfrac{5}{4}t^4 + \dfrac{1}{2}t^{-2} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="15">
+      <div class="meta">Section 5.3 · Problem 15</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int (18t^5 - 10t^4 - 28t)\,dt \)</div>
+      <div class="answer">Answer: \( 3t^6 - 2t^5 - 14t^2 + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="16">
+      <div class="meta">Section 5.3 · Problem 16</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int 14s^{9/5}\,ds \)</div>
+      <div class="answer">Answer: \( 5s^{14/5} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="17">
+      <div class="meta">Section 5.3 · Problem 17</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\(
+        \displaystyle \int (z^{-4/5} - z^{2/3} + z^{5/4})\,dz
+      \)</div>
+      <div class="answer">Answer: \( 5z^{1/5} - \dfrac{3}{5}z^{5/3} + \dfrac{4}{9}z^{9/4} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="18">
+      <div class="meta">Section 5.3 · Problem 18</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int \frac{3}{2}\,dx \)</div>
+      <div class="answer">Answer: \( \dfrac{3}{2}x + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="19">
+      <div class="meta">Section 5.3 · Problem 19</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int x^{-1/3}\,dx \)</div>
+      <div class="answer">Answer: \( \dfrac{3}{2}x^{2/3} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="20">
+      <div class="meta">Section 5.3 · Problem 20</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int x^{-4/3}\,dx \)</div>
+      <div class="answer">Answer: \( -\dfrac{3}{x^{1/3}} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="21">
+      <div class="meta">Section 5.3 · Problem 21</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int 36t^{-3}\,dt \)</div>
+      <div class="answer">Answer: \( -\dfrac{18}{t^2} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="22">
+      <div class="meta">Section 5.3 · Problem 22</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int x(x^2-4)\,dx \)</div>
+      <div class="answer">Answer: \( \dfrac{1}{4}x^4 - 2x^2 + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="23">
+      <div class="meta">Section 5.3 · Problem 23</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\(
+        \displaystyle \int (t^{1/2}+1)(t+1)\,dt
+      \)</div>
+      <div class="answer">
+        Answer: \( \dfrac{2}{5}t^{5/2} + \dfrac{2}{3}t^{3/2} + \dfrac{1}{2}t^2 + t + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="24">
+      <div class="meta">Section 5.3 · Problem 24</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\(
+        \displaystyle \int \frac{12-z}{\sqrt{z}}\,dz
+      \)</div>
+      <div class="answer">
+        Answer: \( 24\sqrt{z} - \dfrac{2}{3}z^{3/2} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="25">
+      <div class="meta">Section 5.3 · Problem 25</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\(
+        \displaystyle \int \frac{x^3-4}{x^2}\,dx
+      \)</div>
+      <div class="answer">
+        Answer: \( \dfrac{1}{2}x^2 + \dfrac{4}{x} + C \)
+      </div>
+    </div>
+
+    <!-- 5.3: 27–32 -->
+    <div class="problem" data-section="5.3" data-number="27">
+      <div class="meta">Section 5.3 · Problem 27</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int 12\sec x \tan x\,dx \)</div>
+      <div class="answer">Answer: \( 12\sec x + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="28">
+      <div class="meta">Section 5.3 · Problem 28</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\(
+        \displaystyle \int (\theta + \sec^2\theta)\,d\theta
+      \)</div>
+      <div class="answer">
+        Answer: \( \dfrac{1}{2}\theta^2 + \tan\theta + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="29">
+      <div class="meta">Section 5.3 · Problem 29</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int \csc t \cot t\,dt \)</div>
+      <div class="answer">Answer: \( -\csc t + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="30">
+      <div class="meta">Section 5.3 · Problem 30</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\(
+        \displaystyle \int (t - \sin t)\,dt
+      \)</div>
+      <div class="answer">
+        Answer: \( \dfrac{1}{2}t^2 + \cos t + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="31">
+      <div class="meta">Section 5.3 · Problem 31</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\(
+        \displaystyle \int (x^2 - \sec^2 x)\,dx
+      \)</div>
+      <div class="answer">
+        Answer: \( \dfrac{1}{3}x^3 - \tan x + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.3" data-number="32">
+      <div class="meta">Section 5.3 · Problem 32</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int \tan\theta \cos\theta\,d\theta \)</div>
+      <div class="answer">Answer: \( -\cos\theta + C \)</div>
+    </div>
+
+    <!-- SECTION 5.4 -->
+    <div class="problem" data-section="5.4" data-number="5">
+      <div class="meta">Section 5.4 · Problem 5</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\( \displaystyle \int_{3}^{6} x\,dx \)</div>
+      <div class="answer">Answer: \( \dfrac{27}{2} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="6">
+      <div class="meta">Section 5.4 · Problem 6</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\( \displaystyle \int_{0}^{9} 2\,dx \)</div>
+      <div class="answer">Answer: \( 18 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="7">
+      <div class="meta">Section 5.4 · Problem 7</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\( \displaystyle \int_{0}^{1} (4x - 9x^2)\,dx \)</div>
+      <div class="answer">Answer: \( -1 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="8">
+      <div class="meta">Section 5.4 · Problem 8</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\( \displaystyle \int_{-3}^{2} u^2\,du \)</div>
+      <div class="answer">Answer: \( \dfrac{35}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="9">
+      <div class="meta">Section 5.4 · Problem 9</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\(
+        \displaystyle \int_{0}^{2} (12x^5 + 3x^2 - 4x)\,dx
+      \)</div>
+      <div class="answer">Answer: \( 128 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="10">
+      <div class="meta">Section 5.4 · Problem 10</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\(
+        \displaystyle \int_{-2}^{2} (10x^9 + 3x^5)\,dx
+      \)</div>
+      <div class="answer">Answer: \( 0 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="11">
+      <div class="meta">Section 5.4 · Problem 11</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\(
+        \displaystyle \int_{3}^{0} (2t^3 - 6t^2)\,dt
+      \)</div>
+      <div class="answer">Answer: \( \dfrac{27}{2} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="12">
+      <div class="meta">Section 5.4 · Problem 12</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\(
+        \displaystyle \int_{-1}^{1} (5u^4 + u^2 - u)\,du
+      \)</div>
+      <div class="answer">Answer: \( \dfrac{8}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="13">
+      <div class="meta">Section 5.4 · Problem 13</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\( \displaystyle \int_{0}^{4} \sqrt{y}\,dy \)</div>
+      <div class="answer">Answer: \( \dfrac{16}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="14">
+      <div class="meta">Section 5.4 · Problem 14</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\( \displaystyle \int_{1}^{8} x^{4/3}\,dx \)</div>
+      <div class="answer">Answer: \( \dfrac{381}{7} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="15">
+      <div class="meta">Section 5.4 · Problem 15</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\( \displaystyle \int_{1/16}^{1} t^{1/4}\,dt \)</div>
+      <div class="answer">Answer: \( \dfrac{31}{40} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="16">
+      <div class="meta">Section 5.4 · Problem 16</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\( \displaystyle \int_{4}^{1} t^{5/2}\,dt \)</div>
+      <div class="answer">Answer: \( -\dfrac{254}{7} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="17">
+      <div class="meta">Section 5.4 · Problem 17</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\( \displaystyle \int_{1}^{3} t^{-2}\,dt \)</div>
+      <div class="answer">Answer: \( \dfrac{2}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="18">
+      <div class="meta">Section 5.4 · Problem 18</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\( \displaystyle \int_{1}^{4} x^{-4}\,dx \)</div>
+      <div class="answer">Answer: \( \dfrac{21}{64} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="19">
+      <div class="meta">Section 5.4 · Problem 19</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\(
+        \displaystyle \int_{1/2}^{1} 8x^{-3}\,dx
+      \)</div>
+      <div class="answer">Answer: \( 12 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="20">
+      <div class="meta">Section 5.4 · Problem 20</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\( \displaystyle \int_{-2}^{-1} x^{-3}\,dx \)</div>
+      <div class="answer">Answer: \( -\dfrac{3}{8} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="21">
+      <div class="meta">Section 5.4 · Problem 21</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\(
+        \displaystyle \int_{1}^{2} (x^2 - x^{-2})\,dx
+      \)</div>
+      <div class="answer">Answer: \( \dfrac{11}{6} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="22">
+      <div class="meta">Section 5.4 · Problem 22</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\( \displaystyle \int_{1}^{9} t^{-1/2}\,dt \)</div>
+      <div class="answer">Answer: \( 4 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="23">
+      <div class="meta">Section 5.4 · Problem 23</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\(
+        \displaystyle \int_{1}^{27} \frac{t+1}{\sqrt{t}}\,dt
+      \)</div>
+      <div class="answer">Answer: \( -\dfrac{8}{3} + 60\sqrt{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="24">
+      <div class="meta">Section 5.4 · Problem 24</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\(
+        \displaystyle \int_{8/27}^{1} \frac{10t^{4/3} - 8t^{1/3}}{t^2}\,dt
+      \)</div>
+      <div class="answer">Answer: \( -5 \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="25">
+      <div class="meta">Section 5.4 · Problem 25</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\(
+        \displaystyle \int_{-\pi/4}^{\pi} \sin\theta\,d\theta
+      \)</div>
+      <div class="answer">Answer: \( 1 + \dfrac{\sqrt{2}}{2} \)</div>
+    </div>
+
+    <div class="problem" data-section="5.4" data-number="26">
+      <div class="meta">Section 5.4 · Problem 26</div>
+      <div class="meta instruction">Evaluate using the Fundamental Theorem of Calculus, Part I (FTC I).</div>
+      <div class="statement">\( \displaystyle \int_{0}^{13\pi} \sin x\,dx \)</div>
+      <div class="answer">Answer: \( 2 \)</div>
+    </div>
+
+    <!-- SECTION 5.6 -->
+    <div class="problem" data-section="5.6" data-number="9">
+      <div class="meta">Section 5.6 · Problem 9</div>
+      <div class="meta instruction">
+        A particle moves in a straight line with the given velocity \(v(t)\). Find the displacement and total distance traveled over the time interval.
+      </div>
+      <div class="statement">\( v(t)=12-4t,\ 0\le t\le 5 \)</div>
+      <div class="answer">
+        Answer: Displacement \(=-10\), Distance \(=15\)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.6" data-number="10">
+      <div class="meta">Section 5.6 · Problem 10</div>
+      <div class="meta instruction">
+        A particle moves in a straight line with the given velocity \(v(t)\). Find the displacement and total distance traveled over the time interval.
+      </div>
+      <div class="statement">\( v(t)=36-24t+3t^2,\ 0\le t\le 10 \)</div>
+      <div class="answer">
+        Answer: Displacement \(=60\), Distance \(=96\)
+      </div>
+    </div>
+
+    <!-- SECTION 5.7: 27–64 -->
+    <div class="problem" data-section="5.7" data-number="27">
+      <div class="meta">Section 5.7 · Problem 27</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int (4x+5)^9\,dx \)</div>
+      <div class="answer">Answer: \( \dfrac{(4x+5)^{10}}{40} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="28">
+      <div class="meta">Section 5.7 · Problem 28</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int \frac{dx}{(x-9)^5} \)</div>
+      <div class="answer">Answer: \( -\dfrac{1}{4(x-9)^4} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="29">
+      <div class="meta">Section 5.7 · Problem 29</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int \frac{dt}{\sqrt{t+12}} \)</div>
+      <div class="answer">Answer: \( 2\sqrt{t+12} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="30">
+      <div class="meta">Section 5.7 · Problem 30</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">\( \displaystyle \int (9t+2)^{2/3}\,dt \)</div>
+      <div class="answer">Answer: \( \dfrac{1}{15}(9t+2)^{5/3} + C \)</div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="31">
+      <div class="meta">Section 5.7 · Problem 31</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \frac{x+1}{(x^2+2x)^3}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( -\dfrac{1}{4(x^2+2x)^2} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="32">
+      <div class="meta">Section 5.7 · Problem 32</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int (x+1)(x^2+2x)^{3/4}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{2}{7}(x^2+2x)^{7/4} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="33">
+      <div class="meta">Section 5.7 · Problem 33</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \frac{x}{\sqrt{x^2+9}}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \sqrt{x^2+9} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="34">
+      <div class="meta">Section 5.7 · Problem 34</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \frac{2x^2+x}{(4x^3+3x^2)^2}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( -\dfrac{1}{6(4x^3+3x^2)} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="35">
+      <div class="meta">Section 5.7 · Problem 35</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int (2x^3-7)^2\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{4}{7}x^7 - 7x^4 + 49x + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="36">
+      <div class="meta">Section 5.7 · Problem 36</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int (4-x^3)^2\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{1}{7}x^7 - 2x^4 + 16x + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="37">
+      <div class="meta">Section 5.7 · Problem 37</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int x^2(2x^3-7)^3\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{(2x^3-7)^4}{24} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="38">
+      <div class="meta">Section 5.7 · Problem 38</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int 6x^2(4-x^3)^4\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( -\dfrac{2}{5}(4-x^3)^5 + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="39">
+      <div class="meta">Section 5.7 · Problem 39</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int (3x+8)^{11}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{(3x+8)^{12}}{36} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="40">
+      <div class="meta">Section 5.7 · Problem 40</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int x(3x+8)^{11}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{(3x+8)^{13}}{117} - \dfrac{2(3x+8)^{12}}{27} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="41">
+      <div class="meta">Section 5.7 · Problem 41</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int x^2\sqrt{x^3+1}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{2}{9}(x^3+1)^{3/2} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="42">
+      <div class="meta">Section 5.7 · Problem 42</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int x^5\sqrt{x^3+1}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{2}{15}(x^3+1)^{5/2} - \dfrac{2}{9}(x^3+1)^{3/2} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="43">
+      <div class="meta">Section 5.7 · Problem 43</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \frac{dx}{(x+5)^3} \)
+      </div>
+      <div class="answer">
+        Answer: \( -\dfrac{1}{2(x+5)^2} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="44">
+      <div class="meta">Section 5.7 · Problem 44</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \frac{x^2}{(x+5)^3}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \ln|x+5| + \dfrac{10}{x+5} - \dfrac{25}{2(x+5)^2} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="45">
+      <div class="meta">Section 5.7 · Problem 45</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int z^2(z^3+1)^{12}\,dz \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{(z^3+1)^{13}}{39} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="46">
+      <div class="meta">Section 5.7 · Problem 46</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int (z^5+4z^2)(z^3+1)^{12}\,dz \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{(z^3+1)^{14}}{42} + \dfrac{(z^3+1)^{13}}{13} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="47">
+      <div class="meta">Section 5.7 · Problem 47</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int (x+2)(x+1)^{1/4}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{4}{9}(x+1)^{9/4} + \dfrac{4}{5}(x+1)^{5/4} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="48">
+      <div class="meta">Section 5.7 · Problem 48</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int x^3(x^2-1)^{3/2}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{(x^2-1)^{7/2}}{7} + \dfrac{(x^2-1)^{5/2}}{5} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="49">
+      <div class="meta">Section 5.7 · Problem 49</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \sin(8-3\theta)\,d\theta \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{1}{3}\cos(8-3\theta) + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="50">
+      <div class="meta">Section 5.7 · Problem 50</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \theta\sin(\theta^2)\,d\theta \)
+      </div>
+      <div class="answer">
+        Answer: \( -\dfrac{1}{2}\cos(\theta^2) + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="51">
+      <div class="meta">Section 5.7 · Problem 51</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \frac{\cos\sqrt{t}}{\sqrt{t}}\,dt \)
+      </div>
+      <div class="answer">
+        Answer: \( 2\sin\sqrt{t} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="52">
+      <div class="meta">Section 5.7 · Problem 52</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int x^2\sin(x^3+1)\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( -\dfrac{1}{3}\cos(x^3+1) + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="53">
+      <div class="meta">Section 5.7 · Problem 53</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \frac{\sin x\cos x}{\sqrt{\sin x+1}}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{2}{3}(\sin x+1)^{3/2} - 2\sqrt{\sin x+1} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="54">
+      <div class="meta">Section 5.7 · Problem 54</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \sin^8\theta\cos\theta\,d\theta \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{\sin^9\theta}{9} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="55">
+      <div class="meta">Section 5.7 · Problem 55</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \sec^2x(12\tan^3x-6\tan^2x)\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( 3\tan^4x - 2\tan^3x + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="56">
+      <div class="meta">Section 5.7 · Problem 56</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int x^{-1/5}\sec(x^{4/5})\tan(x^{4/5})\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{5}{4}\sec(x^{4/5}) + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="57">
+      <div class="meta">Section 5.7 · Problem 57</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \sec^2(4x+9)\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{1}{4}\tan(4x+9) + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="58">
+      <div class="meta">Section 5.7 · Problem 58</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \sec^2x\tan^4x\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{1}{5}\tan^5x + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="59">
+      <div class="meta">Section 5.7 · Problem 59</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \frac{\sec^2\sqrt{x}}{\sqrt{x}}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( 2\tan\sqrt{x} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="60">
+      <div class="meta">Section 5.7 · Problem 60</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \frac{\cos 2x}{(1+\sin 2x)^2}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( -\dfrac{1}{2(1+\sin 2x)} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="61">
+      <div class="meta">Section 5.7 · Problem 61</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \sin 4x\sqrt{\cos 4x+1}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( -\dfrac{1}{6}(\cos 4x+1)^{3/2} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="62">
+      <div class="meta">Section 5.7 · Problem 62</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \cos x(3\sin x-1)\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{(3\sin x-1)^2}{6} + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="63">
+      <div class="meta">Section 5.7 · Problem 63</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int \sec\theta\tan\theta(\sec\theta-1)\,d\theta \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{1}{2}\sec^2\theta - \sec\theta + C \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="64">
+      <div class="meta">Section 5.7 · Problem 64</div>
+      <div class="meta instruction">Evaluate the indefinite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int (\tan t + \sin t)\cos t\,dt \)
+      </div>
+      <div class="answer">
+        Answer: \( -\cos t - \dfrac{1}{2}\cos^2 t + C \)
+      </div>
+    </div>
+
+    <!-- 5.7: 73–77 -->
+    <div class="problem" data-section="5.7" data-number="73">
+      <div class="meta">Section 5.7 · Problem 73</div>
+      <div class="meta instruction">Use the Change of Variables Formula to evaluate the definite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int_{0}^{2} \frac{1}{\sqrt{2x+5}}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( 3 - \sqrt{5} \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="74">
+      <div class="meta">Section 5.7 · Problem 74</div>
+      <div class="meta instruction">Use the Change of Variables Formula to evaluate the definite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int_{1}^{6} \sqrt{x+3}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{38}{3} \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="75">
+      <div class="meta">Section 5.7 · Problem 75</div>
+      <div class="meta instruction">Use the Change of Variables Formula to evaluate the definite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int_{0}^{1} \frac{x}{(x^2+1)^3}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{3}{16} \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="76">
+      <div class="meta">Section 5.7 · Problem 76</div>
+      <div class="meta instruction">Use the Change of Variables Formula to evaluate the definite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int_{-1}^{2} \sqrt{5x+6}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{42}{5} \)
+      </div>
+    </div>
+
+    <div class="problem" data-section="5.7" data-number="77">
+      <div class="meta">Section 5.7 · Problem 77</div>
+      <div class="meta instruction">Use the Change of Variables Formula to evaluate the definite integral.</div>
+      <div class="statement">
+        \( \displaystyle \int_{0}^{4} x\sqrt{x^2+9}\,dx \)
+      </div>
+      <div class="answer">
+        Answer: \( \dfrac{98}{3} \)
+      </div>
+    </div>
+
+  </div> <!-- /problemBank -->
+
+</div> <!-- /app -->
+
+<script>
+  const sectionSelect = document.getElementById("sectionSelect");
+  const newBtn = document.getElementById("newBtn");
+  const showBtn = document.getElementById("showBtn");
+  const trigToggleBtn = document.getElementById("trigToggleBtn");
+  const trigCheatSheet = document.getElementById("trigCheatSheet");
+  const problemContainer = document.getElementById("problemContainer");
+  const noProblemMessage = document.getElementById("noProblemMessage");
+  const problemBank = document.getElementById("problemBank");
+
+  // collect all problems
+  const allProblems = Array.from(problemBank.querySelectorAll(".problem"));
+  const sectionMap = new Map();
+
+  allProblems.forEach(p => {
+    const sec = p.dataset.section || "unknown";
+    if (!sectionMap.has(sec)) sectionMap.set(sec, []);
+    sectionMap.get(sec).push(p);
+  });
+
+  // populate section dropdown
+  function populateSections() {
+    // keep "all" first
+    const existingAll = sectionSelect.querySelector("option[value='all']");
+    sectionSelect.innerHTML = "";
+    sectionSelect.appendChild(existingAll);
+
+    const sections = Array.from(sectionMap.keys()).sort();
+    sections.forEach(sec => {
+      const opt = document.createElement("option");
+      opt.value = sec;
+      opt.textContent = "Section " + sec;
+      sectionSelect.appendChild(opt);
+    });
+  }
+  populateSections();
+
+  let currentProblem = null;
+
+  function getCandidates() {
+    const sec = sectionSelect.value;
+    if (sec === "all") return allProblems;
+    return sectionMap.get(sec) || [];
+  }
+
+  // trig cheat sheet toggle
+  trigToggleBtn.addEventListener("click", () => {
+    trigCheatSheet.classList.toggle("hidden");
+    trigToggleBtn.textContent =
+      trigCheatSheet.classList.contains("hidden")
+        ? "Show Trig Cheat Sheet"
+        : "Hide Trig Cheat Sheet";
+  });
+
+  // New problem
+  newBtn.addEventListener("click", () => {
+    const candidates = getCandidates();
+    if (!candidates.length) {
+      problemContainer.innerHTML = "";
+      noProblemMessage.textContent = "No problems available for this selection.";
+      noProblemMessage.style.display = "block";
+      currentProblem = null;
+      return;
     }
 
-    function showProblem(problemEl) {
-      // Hide all problems and their answers
-      allProblems.forEach(p => {
-        p.classList.remove('active');
-        const ans = p.querySelector('.answer');
-        if (ans) ans.classList.add('hidden');
-      });
+    const idx = Math.floor(Math.random() * candidates.length);
+    const template = candidates[idx];
+    const clone = template.cloneNode(true);
 
-      if (!problemEl) {
-        currentProblem = null;
-        noMsg.style.display = 'block';
-        showBtn.disabled = true;
-        return;
-      }
+    const ans = clone.querySelector(".answer");
+    if (ans) ans.classList.add("hidden");
 
-      problemEl.classList.add('active');
-      noMsg.style.display = 'none';
-      currentProblem = problemEl;
-      showBtn.disabled = false;
+    problemContainer.innerHTML = "";
+    problemContainer.appendChild(clone);
+    noProblemMessage.style.display = "none";
+    currentProblem = clone;
+
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise([problemContainer]).catch(err => console.error(err));
     }
+  });
 
-    newBtn.addEventListener('click', () => {
-      const eligible = eligibleProblems();
-      if (!eligible.length) {
-        showProblem(null);
-        return;
-      }
-      const choice = eligible[Math.floor(Math.random() * eligible.length)];
-      showProblem(choice);
-    });
+  // Show/hide answer
+  showBtn.addEventListener("click", () => {
+    if (!currentProblem) return;
+    const ans = currentProblem.querySelector(".answer");
+    if (!ans) return;
+    ans.classList.toggle("hidden");
+  });
+</script>
 
-    showBtn.addEventListener('click', () => {
-      if (!currentProblem) return;
-      const ans = currentProblem.querySelector('.answer');
-      if (ans) ans.classList.remove('hidden');
-    });
-
-    setSelect.addEventListener('change', () => {
-      // Clear current problem when changing sets
-      showProblem(null);
-    });
-  </script>
 </body>
 </html>
