@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Calculus Practice — Problem Bank</title>
+
+<!-- MathJax for LaTeX Rendering -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f9fc;
+    color: #111827;
+  }
+
+  .app {
+    max-width: 850px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 25px rgba(0,0,0,0.08);
+  }
+
+  .title {
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 1.4rem;
+    color: #555;
+  }
+
+  select, button {
+    font-size: 1rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: 0.6rem;
+    border: 1px solid #d1d5db;
+  }
+
+  .controls {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1.3rem;
+    flex-wrap: wrap;
+  }
+
+  button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  button.secondary {
+    background: #4b5563;
+  }
+
+  .hidden { display: none; }
+  .meta { font-size: 0.95rem; color:#6b7280;margin-bottom:0.4rem; }
+  .statement { font-size:1.25rem; margin-bottom:0.65rem; }
+  .answer { font-size:1.25rem; margin-top:0.65rem; padding:1rem;border-radius:0.6rem;background:#f3f4f6;}
+  #noProblemMessage{color:#7b8794;margin-top:1.2rem;font-size:1.1rem;text-align:center;}
+
+  /* TRIG CHEAT SHEET STYLING */
+  .trig-toggle-row{margin-bottom:1rem;}
+  .trig-cheatsheet {
+    border-radius:0.75rem;
+    padding:1rem;
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    margin-bottom:1.25rem;
+    font-size:0.95rem;
+  }
+  .trig-cheatsheet h2{margin-top:0;margin-bottom:0.5rem;font-size:1.1rem;}
+  .trig-cheatsheet h3{margin-bottom:0.3rem;margin-top:0.8rem;font-size:1rem;}
+  .trig-cheatsheet ul{margin-top:0.2rem;margin-bottom:0.4rem;padding-left:1.4rem;}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="title">Calculus Practice System</div>
+  <div class="subtitle">Clean foundation — ready for JSON-based problem injection</div>
+
+  <!-- 🔥 Section Filter + Buttons -->
+  <div class="controls">
+    <select id="sectionSelect">
+      <option value="all">All Sections</option>
+      <!-- Options will reappear once problems exist -->
+    </select>
+
+    <button id="newBtn">New Problem</button>
+    <button id="showBtn">Show Answer</button>
+  </div>
+
+  <!-- 🔥 TRIG CHEAT SHEET TOGGLE -->
+  <div class="trig-toggle-row">
+    <button id="trigToggleBtn" class="secondary">Show Trig Cheat Sheet</button>
+  </div>
+
+  <div id="trigCheatSheet" class="trig-cheatsheet hidden">
+    <h2>Trig Reference — Calc I</h2>
+
+    <h3>Basic Identities</h3>
+    <ul>
+      <li>\(\sin^2x + \cos^2x = 1\)</li>
+      <li>\(1 + \tan^2x = \sec^2x\)</li>
+      <li>\(1 + \cot^2x = \csc^2x\)</li>
+    </ul>
+
+    <h3>Quadrant Signs (ASTC)</h3>
+    <ul>
+      <li>Q1 — all positive</li>
+      <li>Q2 — sin positive</li>
+      <li>Q3 — tan positive</li>
+      <li>Q4 — cos positive</li>
+    </ul>
+
+    <h3>Derivatives</h3>
+    <ul>
+      <li>\(\frac{d}{dx}\sin x = \cos x\)</li>
+      <li>\(\frac{d}{dx}\cos x = -\sin x\)</li>
+      <li>\(\frac{d}{dx}\tan x = \sec^2 x\)</li>
+      <li>\(\frac{d}{dx}\sec x = \sec x \tan x\)</li>
+    </ul>
+
+    <h3>Common Antiderivatives</h3>
+    <ul>
+      <li>\(\int\sin x dx = -\cos x + C\)</li>
+      <li>\(\int\cos x dx = \sin x + C\)</li>
+      <li>\(\int\sec^2x dx = \tan x + C\)</li>
+      <li>\(\int\csc^2x dx = -\cot x + C\)</li>
+    </ul>
+  </div>
+
+  <!-- 🔥 EMPTY PROBLEM CONTAINER -->
+  <div id="problemContainer"></div>
+  <div id="noProblemMessage">No problems loaded.</div>
+
+</div>
+
+<script>
+  const sectionSelect = document.getElementById("sectionSelect");
+  const newBtn = document.getElementById("newBtn");
+  const showBtn = document.getElementById("showBtn");
+  const trigToggleBtn = document.getElementById("trigToggleBtn");
+  const trigCheatSheet = document.getElementById("trigCheatSheet");
+
+  // ----- TRIG CHEAT SHEET TOGGLE -----
+  trigToggleBtn.addEventListener("click", () => {
+    trigCheatSheet.classList.toggle("hidden");
+    trigToggleBtn.textContent =
+      trigCheatSheet.classList.contains("hidden")
+        ? "Show Trig Cheat Sheet"
+        : "Hide Trig Cheat Sheet";
+  });
+
+  // Buttons currently idle until problems populated again
+  newBtn.addEventListener("click", ()=> alert("No problems yet."));
+  showBtn.addEventListener("click",()=> alert("No answer to show."));
+
+</script>
+
+</body>
+</html>
