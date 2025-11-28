@@ -358,6 +358,7 @@
       problemMeta.textContent =
         `${setLabel}, Problem ${currentProblem.number} (Book Sec. ${currentProblem.section})`;
 
+      // Key line: inject LaTeX into HTML and let MathJax render
       problemExpression.innerHTML = `\$begin:math:text$\$\{currentProblem\.expression\}\\$end:math:text$`;
       renderMath();
 
