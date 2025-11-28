@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Calc 1 Practice – Section 5.3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 1.5rem;
+      background: #f4f4f5;
+      color: #111827;
+    }
+    .app {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+    }
+    h1 {
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      align-items: center;
+    }
+    select, button {
+      padding: 0.4rem 0.7rem;
+      border-radius: 0.5rem;
+      border: 1px solid #d4d4d8;
+      background: #f9fafb;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    button.primary {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+    button.danger {
+      background: #ef4444;
+      color: white;
+      border-color: #ef4444;
+    }
+    button.secondary {
+      background: #e5e7eb;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .problem-card {
+      border-radius: 0.75rem;
+      padding: 1rem;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      margin-bottom: 1rem;
+    }
+    .meta {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-bottom: 0.25rem;
+    }
+    .expression {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .answer {
+      margin-top: 0.5rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      font-size: 1rem;
+    }
+    .answer.hidden {
+      display: none;
+    }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+    .stat-label {
+      color: #6b7280;
+      font-size: 0.8rem;
+    }
+    .stat-value {
+      font-weight: 600;
+    }
+    .timer {
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 0.75rem;
+      }
+      .app {
+        padding: 1rem;
+      }
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      select, button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Calc 1 Practice – Section 5.3 (Antiderivatives)</h1>
+    <p style="font-size:0.9rem;color:#4b5563;margin-top:-0.5rem;">
+      Choose a set, then click <strong>New Problem</strong>. Try it, reveal the answer, and mark yourself right or wrong.
+    </p>
+
+    <div class="controls">
+      <label>
+        Set:
+        <select id="setSelect">
+          <option value="all">All Sets</option>
+          <option value="set1">Set 1 – General antiderivative</option>
+          <option value="set2">Set 2 – Evaluate indefinite integrals</option>
+        </select>
+      </label>
+
+      <button id="newBtn" class="primary">New Problem</button>
+      <button id="showBtn" class="secondary" disabled>Show Answer</button>
+      <button id="rightBtn" class="secondary" disabled>I got it right</button>
+      <button id="wrongBtn" class="secondary" disabled>I got it wrong</button>
+      <button id="resetBtn" class="danger" style="margin-left:auto;">Reset Stats</button>
+    </div>
+
+    <div class="problem-card">
+      <div id="problemMeta" class="meta">No problem loaded yet.</div>
+      <div id="problemExpression" class="expression"></div>
+      <div id="answerBox" class="answer hidden">
+        <strong>Answer:</strong>
+        <div id="answerText"></div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div>
+        <div class="stat-label">Attempted</div>
+        <div id="statAttempted" class="stat-value">0</div>
+      </div>
+      <div>
+        <div class="stat-label">Correct</div>
+        <div id="statCorrect" class="stat-value">0</div>
+      </div>
+      <div>
+        <div class="stat-label">Accuracy</div>
+        <div id="statAccuracy" class="stat-value">0%</div>
+      </div>
+      <div>
+        <div class="stat-label">Current problem time</div>
+        <div id="timer" class="timer">0 s</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
