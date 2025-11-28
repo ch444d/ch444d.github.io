@@ -48,7 +48,7 @@ function applyFilter() {
   }
   currentProblem = null;
   problemMeta.textContent = "Filter applied. Click \"New Problem\" to begin.";
-  problemExpression.textContent = "";
+  problemExpression.innerHTML = "";
   hideAnswer();
   stopTimer();
   currentSeconds = 0;
@@ -81,7 +81,7 @@ function updateTimerDisplay() {
 function pickRandomProblem() {
   if (!filteredProblems.length) {
     problemMeta.textContent = "No problems available for this filter.";
-    problemExpression.textContent = "";
+    problemExpression.innerHTML = "";
     hideAnswer();
     disableAnswerButtons();
     return;
@@ -97,7 +97,12 @@ function pickRandomProblem() {
 
   problemMeta.textContent =
     `${setLabel}, Problem ${currentProblem.number} (Book Sec. ${currentProblem.section})`;
-  problemExpression.textContent = currentProblem.expression;
+
+  // Render expression as LaTeX using MathJax
+  problemExpression.innerHTML = `\$begin:math:text$\$\{currentProblem\.expression\}\\$end:math:text$`;
+  if (window.MathJax && MathJax.typeset) {
+    MathJax.typeset();
+  }
 
   hideAnswer();
   enableAnswerButtons();
@@ -107,8 +112,11 @@ function pickRandomProblem() {
 // --------- Answer display ---------
 function showAnswer() {
   if (!currentProblem) return;
-  answerText.textContent = currentProblem.answer;
+  answerText.innerHTML = `\$begin:math:text$\$\{currentProblem\.answer\}\\$end:math:text$`;
   answerBox.classList.remove("hidden");
+  if (window.MathJax && MathJax.typeset) {
+    MathJax.typeset();
+  }
 }
 
 function hideAnswer() {
