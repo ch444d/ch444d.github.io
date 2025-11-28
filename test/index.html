@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Simple Integral Display</title>
+
+<!-- Load MathJax for LaTeX rendering -->
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background:#f4f4f5;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+  }
+  .card {
+    background:white;
+    padding:2rem;
+    border-radius:12px;
+    box-shadow:0 0 25px rgba(0,0,0,0.1);
+    font-size:1.5rem;
+  }
+</style>
+</head>
+
+<body>
+  <div class="card">
+    \( \text{Integrate } f(x) = 2x^2 \)
+  </div>
+</body>
+</html>
