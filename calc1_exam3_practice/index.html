@@ -5,8 +5,19 @@
   <title>Calc 1 Practice – Section 5.3</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- MathJax for rendering LaTeX-style math (superscripts, integrals, etc.) -->
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <!-- MathJax configuration (set BEFORE loading the MathJax script) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']]
+      },
+      startup: {
+        typeset: false  // we will call typeset manually from script.js
+      }
+    };
+  </script>
+  <!-- MathJax v3 loader -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
     body {
@@ -177,6 +188,7 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- App logic -->
+  <script src="script.js?v=2"></script>
 </body>
 </html>

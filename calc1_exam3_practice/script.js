@@ -25,6 +25,14 @@ const statCorrect   = document.getElementById("statCorrect");
 const statAccuracy  = document.getElementById("statAccuracy");
 const timerDisplay  = document.getElementById("timer");
 
+// --------- Helper: render math with MathJax once it's ready ---------
+function renderMath() {
+  // MathJax v3 exposes typesetPromise; wait until it's defined
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise();
+  }
+}
+
 // --------- Load problems from JSON ---------
 async function loadProblems() {
   try {
@@ -53,6 +61,7 @@ function applyFilter() {
   stopTimer();
   currentSeconds = 0;
   updateTimerDisplay();
+  renderMath();
 }
 
 // --------- Timer ---------
@@ -84,6 +93,7 @@ function pickRandomProblem() {
     problemExpression.innerHTML = "";
     hideAnswer();
     disableAnswerButtons();
+    renderMath();
     return;
   }
   const idx = Math.floor(Math.random() * filteredProblems.length);
@@ -98,11 +108,9 @@ function pickRandomProblem() {
   problemMeta.textContent =
     `${setLabel}, Problem ${currentProblem.number} (Book Sec. ${currentProblem.section})`;
 
-  // Render expression as LaTeX using MathJax
+  // Render expression as LaTeX inline math
   problemExpression.innerHTML = `\$begin:math:text$\$\{currentProblem\.expression\}\\$end:math:text$`;
-  if (window.MathJax && MathJax.typeset) {
-    MathJax.typeset();
-  }
+  renderMath();
 
   hideAnswer();
   enableAnswerButtons();
@@ -114,9 +122,7 @@ function showAnswer() {
   if (!currentProblem) return;
   answerText.innerHTML = `\$begin:math:text$\$\{currentProblem\.answer\}\\$end:math:text$`;
   answerBox.classList.remove("hidden");
-  if (window.MathJax && MathJax.typeset) {
-    MathJax.typeset();
-  }
+  renderMath();
 }
 
 function hideAnswer() {
