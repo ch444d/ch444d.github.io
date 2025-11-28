@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Calc 1 – Section 5.3 Practice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:#f4f4f5;
+      margin:0;
+      padding:1.5rem;
+      color:#111827;
+    }
+    .app{
+      max-width:850px;
+      margin:auto;
+      background:white;
+      padding:1.5rem;
+      border-radius:.75rem;
+      box-shadow:0 10px 25px rgba(15,23,42,.12);
+    }
+    h1{margin-top:0;font-size:1.6rem;}
+    .subtitle{
+      font-size:.92rem;
+      color:#4b5563;
+      margin-top:-.5rem;
+      margin-bottom:.85rem;
+    }
+
+    /* Toggle button + cheat sheet panel */
+    .trig-toggle-row{margin-bottom:.8rem;}
+    .trig-cheatsheet{
+      background:#eff6ff;
+      border:1px solid #bfdbfe;
+      padding:1rem;
+      border-radius:.75rem;
+      margin-bottom:1rem;
+      font-size:.95rem;
+    }
+    .trig-cheatsheet.hidden{display:none;}
+    .trig-cheatsheet h2{
+      margin-top:0;
+      font-size:1.1rem;
+      margin-bottom:.4rem;
+    }
+    .trig-cheatsheet h3{
+      margin:.65rem 0 .25rem;
+      font-size:1rem;
+    }
+    .trig-cheatsheet ul{
+      margin:.25rem 0 .45rem;
+      padding-left:1.2rem;
+    }
+
+    /* UI elements */
+    .controls{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem;align-items:center;}
+    select,button{
+      padding:.42rem .7rem;
+      border-radius:.5rem;
+      border:1px solid #d4d4d8;
+      background:#f9fafb;
+      cursor:pointer;font-size:.9rem;
+    }
+    button.primary{background:#2563eb;color:white;border-color:#2563eb;}
+    button.secondary{background:#e5e7eb;}
+    button:disabled{opacity:.45;cursor:not-allowed;}
+
+    .problem-card{
+      background:#f9fafb;
+      border:1px solid #e5e7eb;
+      border-radius:.75rem;
+      padding:1rem;
+      margin-bottom:1rem;
+      min-height:130px;
+    }
+    .problem{display:none;}
+    .problem.active{display:block;}
+    .meta{font-size:.85rem;color:#6b7280;margin-bottom:.2rem;}
+    .statement{font-size:1.05rem;margin-bottom:.75rem;}
+    .answer{background:#ecfdf5;border:1px solid #bbf7d0;padding:.75rem;border-radius:.5rem;font-size:.97rem;}
+    .answer.hidden{display:none;}
+    #noProblemMessage{font-size:.95rem;color:#6b7280;}
+
+    /* Mobile */
+    @media(max-width:600px){
+      body{padding:.8rem;}
+      .controls{flex-direction:column;align-items:stretch;}
+      select,button{width:100%;}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Calc 1 – Section 5.3 Practice</h1>
+    <p class="subtitle">Random antiderivative and basic integral drill (Book §5.3).</p>
+
+    <!-- ▼▼ NEW — TRIG CHEAT-SHEET ▼▼ -->
+    <div class="trig-toggle-row">
+      <button id="trigToggleBtn" class="secondary">Show trig cheat sheet</button>
+    </div>
+
+    <div id="trigCheatSheet" class="trig-cheatsheet hidden">
+      <h2>Trig Cheat Sheet (Calc I)</h2>
+
+      <h3>Fundamentals</h3>
+      <ul>
+        <li>\( \sin^2x + \cos^2x = 1 \)</li>
+        <li>\( 1 + \tan^2x = \sec^2x \)</li>
+        <li>\( 1 + \cot^2x = \csc^2x \)</li>
+        <li>\( \tan x = \dfrac{\sin x}{\cos x},\quad \cot x = \dfrac{\cos x}{\sin x} \)</li>
+      </ul>
+
+      <h3>Quadrant Signs (ASTC)</h3>
+      <ul>
+        <li>I: all positive</li>
+        <li>II: only \( \sin \) positive</li>
+        <li>III: only \( \tan \) positive</li>
+        <li>IV: only \( \cos \) positive</li>
+      </ul>
+
+      <h3>Derivatives</h3>
+      <ul>
+        <li>\( (\sin x)' = \cos x \)</li>
+        <li>\( (\cos x)' = -\sin x \)</li>
+        <li>\( (\tan x)' = \sec^2x \)</li>
+        <li>\( (\cot x)' = -\csc^2x \)</li>
+        <li>\( (\sec x)' = \sec x\tan x \)</li>
+        <li>\( (\csc x)' = -\csc x\cot x \)</li>
+      </ul>
+
+      <h3>Common Antiderivatives</h3>
+      <ul>
+        <li>\( \displaystyle \int \sin x\,dx = -\cos x + C \)</li>
+        <li>\( \displaystyle \int \cos x\,dx = \sin x + C \)</li>
+        <li>\( \displaystyle \int \sec^2 x\,dx = \tan x + C \)</li>
+        <li>\( \displaystyle \int \csc^2 x\,dx = -\cot x + C \)</li>
+        <li>\( \displaystyle \int \sec x\tan x\,dx = \sec x + C \)</li>
+        <li>\( \displaystyle \int \csc x\cot x\,dx = -\csc x + C \)</li>
+      </ul>
+    </div>
+    <!-- ▲▲ CHEAT-SHEET SECTION ▲▲ -->
+
+    <!-- Controls -->
+    <div class="controls">
+      <label>Set:
+        <select id="setSelect">
+          <option value="all">All Sets</option>
+          <option value="set1">Set 1 – General antiderivative</option>
+          <option value="set2">Set 2 – Indefinite integrals</option>
+        </select>
+      </label>
+      <button id="newBtn" class="primary">New Problem</button>
+      <button id="showBtn" class="secondary" disabled>Show Answer</button>
+    </div>
+
+    <!-- Problem container -->
+    <div class="problem-card">
+      <div id="noProblemMessage">
+        No problem loaded yet. Choose a set or leave “All Sets” and press <b>New Problem</b>.
+      </div>
+
+      <div id="problems">
+
+        <!-- ▼▼▼ SET 1 — GENERAL ANTIDERIVATIVE ▼▼▼ -->
+        <div class="problem" data-set="set1" data-number="1"><div class="meta">Set 1 · Prob 1 (§5.3)</div><div class="statement">\( f(x)=18x^2 \)</div><div class="answer hidden">\( F(x)=6x^3+C \)</div></div>
+        <div class="problem" data-set="set1" data-number="2"><div class="meta">Set 1 · Prob 2 (§5.3)</div><div class="statement">\( f(x)=x^{-3/5} \)</div><div class="answer hidden">\( F(x)=\frac{5}{2}x^{2/5}+C \)</div></div>
+        <div class="problem" data-set="set1" data-number="3"><div class="meta">Set 1 · Prob 3 (§5.3)</div><div class="statement">\( f(x)=2x^4-24x^2 \)</div><div class="answer hidden">\( F(x)=\frac{2}{5}x^5-8x^3+C \)</div></div>
+        <div class="problem" data-set="set1" data-number="4"><div class="meta">Set 1 · Prob 4 (§5.3)</div><div class="statement">\( f(x)=9x+15x^{-2} \)</div><div class="answer hidden">\( F(x)=\frac{9}{2}x^2-\frac{15}{x}+C \)</div></div>
+        <div class="problem" data-set="set1" data-number="5"><div class="meta">Set 1 · Prob 5 (§5.3)</div><div class="statement">\( f(x)=2\cos x-9\sin x \)</div><div class="answer hidden">\( F(x)=2\sin x+9\cos x+C \)</div></div>
+        <div class="problem" data-set="set1" data-number="6"><div class="meta">Set 1 · Prob 6 (§5.3)</div><div class="statement">\( f(x)=4x^7-3\cos x \)</div><div class="answer hidden">\( F(x)=\frac{1}{2}x^8-3\sin x+C \)</div></div>
+        <div class="problem" data-set="set1" data-number="7"><div class="meta">Set 1 · Prob 7 (§5.3)</div><div class="statement">\( f(x)=\sin(2x)+12\cos(3x) \)</div><div class="answer hidden">\( F(x)=-\frac{1}{2}\cos(2x)+4\sin(3x)+C \)</div></div>
+        <div class="problem" data-set="set1" data-number="8"><div class="meta">Set 1 · Prob 8 (§5.3)</div><div class="statement">\( f(x)=\sin(4-9x) \)</div><div class="answer hidden">\( F(x)=\frac{1}{9}\cos(4-9x)+C \)</div></div>
+
+        <!-- ▼▼▼ SET 2 — INDEFINITE INTEGRALS ▼▼▼ -->
+        <div class="problem" data-set="set2" data-number="10"><div class="meta">Set 2 · Prob 10 (§5.3)</div><div class="statement">\( \int(9x+2)\,dx \)</div><div class="answer hidden">\( \frac{9}{2}x^2+2x+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="11"><div class="meta">Set 2 · Prob 11 (§5.3)</div><div class="statement">\( \int(4-18x)\,dx \)</div><div class="answer hidden">\( 4x-9x^2+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="12"><div class="meta">Set 2 · Prob 12 (§5.3)</div><div class="statement">\( \int x^{-3}\,dx \)</div><div class="answer hidden">\( -\frac{1}{2x^2}+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="13"><div class="meta">Set 2 · Prob 13 (§5.3)</div><div class="statement">\( \int t^{-6/11}\,dt \)</div><div class="answer hidden">\( \frac{11}{5}t^{5/11}+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="14"><div class="meta">Set 2 · Prob 14 (§5.3)</div><div class="statement">\( \int(5t^3-t^{-3})\,dt \)</div><div class="answer hidden">\( \frac{5}{4}t^4+\frac{1}{2}t^{-2}+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="15"><div class="meta">Set 2 · Prob 15 (§5.3)</div><div class="statement">\( \int(18t^5-10t^4-28t)\,dt \)</div><div class="answer hidden">\( 3t^6-2t^5-14t^2+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="16"><div class="meta">Set 2 · Prob 16 (§5.3)</div><div class="statement">\( \int14s^{9/5}\,ds \)</div><div class="answer hidden">\( 5s^{14/5}+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="17"><div class="meta">Set 2 · Prob 17 (§5.3)</div><div class="statement">\( \int(z^{-4/5}-z^{2/3}+z^{5/4})\,dz \)</div><div class="answer hidden">\( 5z^{1/5}-\frac{3}{5}z^{5/3}+\frac{4}{9}z^{9/4}+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="18"><div class="meta">Set 2 · Prob 18 (§5.3)</div><div class="statement">\( \int\frac{3}{2}\,dx \)</div><div class="answer hidden">\( \frac{3}{2}x+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="19"><div class="meta">Set 2 · Prob 19 (§5.3)</div><div class="statement">\( \int x^{-1/3}\,dx \)</div><div class="answer hidden">\( \frac{3}{2}x^{2/3}+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="20"><div class="meta">Set 2 · Prob 20 (§5.3)</div><div class="statement">\( \int x^{-4/3}\,dx \)</div><div class="answer hidden">\( -3x^{-1/3}+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="21"><div class="meta">Set 2 · Prob 21 (§5.3)</div><div class="statement">\( \int36t^{-3}\,dt \)</div><div class="answer hidden">\( -18t^{-2}+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="22"><div class="meta">Set 2 · Prob 22 (§5.3)</div><div class="statement">\( \int x(x^2-4)\,dx \)</div><div class="answer hidden">\( \frac{1}{4}x^4-2x^2+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="23"><div class="meta">Set 2 · Prob 23 (§5.3)</div><div class="statement">\( \int(t^{1/2}+1)(t+1)\,dt \)</div><div class="answer hidden">\( \frac{2}{5}t^{5/2}+\frac{2}{3}t^{3/2}+\frac{1}{2}t^2+t+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="24"><div class="meta">Set 2 · Prob 24 (§5.3)</div><div class="statement">\( \int\frac{12-z}{\sqrt{z}}\,dz \)</div><div class="answer hidden">\( 24\sqrt{z}-\frac{2}{3}z^{3/2}+C \)</div></div>
+        <div class="problem" data-set="set2" data-number="25"><div class="meta">Set 2 · Prob 25 (§5.3)</div><div class="statement">\( \int\frac{x^3-4}{x^2}\,dx \)</div><div class="answer hidden">\( \frac{1}{2}x^2+\frac{4}{x}+C \)</div></div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── JAVASCRIPT ──────────────────────────────── -->
+  <script>
+    const allProblems = [...document.querySelectorAll(".problem")];
+    const setSelect   = document.getElementById("setSelect");
+    const newBtn      = document.getElementById("newBtn");
+    const showBtn     = document.getElementById("showBtn");
+    const noMsg       = document.getElementById("noProblemMessage");
+
+    // trig UI
+    const trigToggleBtn = document.getElementById("trigToggleBtn");
+    const trigCheatSheet = document.getElementById("trigCheatSheet");
+
+    let currentProblem = null;
+
+    function eligibleProblems(){
+      if(setSelect.value==="all") return allProblems;
+      return allProblems.filter(p=>p.dataset.set===setSelect.value);
+    }
+    function showProblem(p){
+      allProblems.forEach(x=>{
+        x.classList.remove("active");
+        x.querySelector(".answer").classList.add("hidden");
+      });
+      if(!p){
+        currentProblem=null;
+        noMsg.style.display="block";
+        showBtn.disabled=true;
+        return;
+      }
+      p.classList.add("active");
+      noMsg.style.display="none";
+      currentProblem=p;
+      showBtn.disabled=false;
+    }
+
+    newBtn.addEventListener("click",()=>{
+      const choices = eligibleProblems();
+      if(!choices.length) return showProblem(null);
+      showProblem(choices[Math.floor(Math.random()*choices.length)]);
+    });
+
+    showBtn.addEventListener("click",()=>{
+      if(currentProblem)
+        currentProblem.querySelector(".answer").classList.remove("hidden");
+    });
+
+    setSelect.addEventListener("change",()=>showProblem(null));
+
+    // TRIG TOGGLE
+    trigToggleBtn.addEventListener("click",()=>{
+      const hidden=trigCheatSheet.classList.toggle("hidden");
+      trigToggleBtn.textContent = hidden
+        ? "Show trig cheat sheet"
+        : "Hide trig cheat sheet";
+    });
+  </script>
+</body>
+</html>
