@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Calc 2 Exam 1 Practice</title>
+
+<!-- MathJax for LaTeX Rendering -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f9fc;
+    color: #111827;
+  }
+
+  .app {
+    max-width: 950px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 25px rgba(0,0,0,0.08);
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .subtitle {
+    font-size: 1.05rem;
+    margin-bottom: 1.4rem;
+    color: #555;
+    line-height: 1.45;
+  }
+
+  select, button {
+    font-size: 1rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: 0.6rem;
+    border: 1px solid #d1d5db;
+  }
+
+  .controls {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1.3rem;
+    flex-wrap: wrap;
+  }
+
+  button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  button.secondary {
+    background: #4b5563;
+  }
+
+  button:hover {
+    filter: brightness(0.95);
+  }
+
+  .hidden { display: none; }
+
+  #noProblemMessage {
+    color:#7b8794;
+    margin-top:1.2rem;
+    font-size:1.05rem;
+    text-align:center;
+  }
+
+  .problem {
+    margin-top: 0.75rem;
+  }
+
+  .meta {
+    font-size: 0.92rem;
+    color:#6b7280;
+    margin-bottom:0.2rem;
+  }
+
+  .meta.instruction {
+    font-size: 0.9rem;
+    color:#4b5563;
+  }
+
+  .statement {
+    font-size:1.25rem;
+    margin-top:0.6rem;
+    margin-bottom:0.65rem;
+    line-height: 1.6;
+  }
+
+  .answer {
+    font-size:1.15rem;
+    margin-top:0.65rem;
+    padding:1rem;
+    border-radius:0.6rem;
+    background:#a7f8b7;
+    line-height: 1.6;
+  }
+
+  .sheet-toggle-row{margin-bottom:1rem;}
+  .formula-sheet {
+    border-radius:0.75rem;
+    padding:1rem;
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    margin-bottom:1.25rem;
+    font-size:0.95rem;
+    line-height: 1.5;
+  }
+
+  .formula-sheet h2 {
+    margin-top:0;
+    margin-bottom:0.5rem;
+    font-size:1.1rem;
+  }
+
+  .formula-sheet h3 {
+    margin-bottom:0.25rem;
+    margin-top:0.8rem;
+    font-size:1rem;
+  }
+
+  .formula-sheet ul {
+    margin-top:0.2rem;
+    margin-bottom:0.4rem;
+    padding-left:1.4rem;
+  }
+
+  .footer-note {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="title">Calc 2 — Exam 1 Practice</div>
+  <div class="subtitle">
+    Random practice problems from Sections 6.1 through 7.2.
+    Each section contains 10 problems: 2 problems each from difficulty 1/5 through 5/5.
+    Choose a section, generate a problem, and reveal the answer when ready.
+  </div>
+
+  <div class="controls">
+    <select id="sectionSelect">
+      <option value="all">All Sections</option>
+    </select>
+
+    <button id="newBtn">New Problem</button>
+    <button id="showBtn">Show Answer</button>
+  </div>
+
+  <div class="sheet-toggle-row">
+    <button id="formulaToggleBtn" class="secondary">Show Exam 1 Formula Sheet</button>
+  </div>
+
+  <div id="formulaSheet" class="formula-sheet hidden">
+    <h2>Exam 1 Quick Reference</h2>
+
+    <h3>6.1 Area Between Curves</h3>
+    <ul>
+      <li>\(\displaystyle A=\int_a^b (\text{top} - \text{bottom})\,dx\)</li>
+      <li>\(\displaystyle A=\int_c^d (\text{right} - \text{left})\,dy\)</li>
+    </ul>
+
+    <h3>6.2 Average Value</h3>
+    <ul>
+      <li>\(\displaystyle f_{\text{avg}}=\frac{1}{b-a}\int_a^b f(x)\,dx\)</li>
+    </ul>
+
+    <h3>6.3 Volumes of Revolution</h3>
+    <ul>
+      <li>\(\displaystyle V=\pi\int_a^b R(x)^2\,dx\) (disk)</li>
+      <li>\(\displaystyle V=\pi\int_a^b \big(R(x)^2-r(x)^2\big)\,dx\) (washer)</li>
+    </ul>
+
+    <h3>6.4 Cylindrical Shells</h3>
+    <ul>
+      <li>\(\displaystyle V=2\pi\int_a^b (\text{radius})(\text{height})\,dx\)</li>
+      <li>\(\displaystyle V=2\pi\int_c^d (\text{radius})(\text{height})\,dy\)</li>
+    </ul>
+
+    <h3>6.5 Work</h3>
+    <ul>
+      <li>\(\displaystyle W=\int_a^b F(x)\,dx\)</li>
+      <li>For fluids: use a thin slice, then distance \(\times\) weight density \(\times\) volume slice</li>
+    </ul>
+
+    <h3>7.1 Exponential Functions</h3>
+    <ul>
+      <li>\(\displaystyle \frac{d}{dx}(e^x)=e^x\)</li>
+      <li>\(\displaystyle \frac{d}{dx}(a^x)=a^x\ln a\)</li>
+      <li>\(\displaystyle \int e^x\,dx=e^x+C\)</li>
+      <li>\(\displaystyle \int a^x\,dx=\frac{a^x}{\ln a}+C\)</li>
+    </ul>
+
+    <h3>7.2 Inverse Functions</h3>
+    <ul>
+      <li>\(\displaystyle (f^{-1})'(a)=\frac{1}{f'(f^{-1}(a))}\)</li>
+      <li>\(\displaystyle \frac{d}{dx}\ln x=\frac{1}{x}\)</li>
+      <li>\(\displaystyle \frac{d}{dx}\log_a x=\frac{1}{x\ln a}\)</li>
+    </ul>
+  </div>
+
+  <div id="problemContainer"></div>
+  <div id="noProblemMessage">Click “New Problem” to get started.</div>
+
+  <div id="problemBank" class="hidden">
+
+    <!-- SECTION 6.1 -->
+    <div class="problem" data-section="6.1">
+      <div class="meta">Section 6.1 · Difficulty 1/5</div>
+      <div class="meta instruction">Find the area between the curves on the stated interval.</div>
+      <div class="statement">\( y=x,\ y=0,\ 0\le x\le 4 \)</div>
+      <div class="answer">Answer: \( \displaystyle \int_0^4 x\,dx = 8 \)</div>
+    </div>
+
+    <div class="problem" data-section="6.1">
+      <div class="meta">Section 6.1 · Difficulty 1/5</div>
+      <div class="meta instruction">Find the area between the curves on the stated interval.</div>
+      <div class="statement">\( y=5-x,\ y=0,\ 0\le x\le 5 \)</div>
+      <div class="answer">Answer: \( \displaystyle \int_0^5 (5-x)\,dx = \frac{25}{2} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.1">
+      <div class="meta">Section 6.1 · Difficulty 2/5</div>
+      <div class="meta instruction">Find the area enclosed by the curves.</div>
+      <div class="statement">\( y=x^2,\ y=4 \)</div>
+      <div class="answer">Answer: intersections at \(x=\pm2\), so \( \displaystyle A=\int_{-2}^{2}(4-x^2)\,dx=\frac{32}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.1">
+      <div class="meta">Section 6.1 · Difficulty 2/5</div>
+      <div class="meta instruction">Find the area enclosed by the curves.</div>
+      <div class="statement">\( y=x^2,\ y=2x \)</div>
+      <div class="answer">Answer: intersections at \(x=0,2\), so \( \displaystyle A=\int_0^2(2x-x^2)\,dx=\frac{4}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.1">
+      <div class="meta">Section 6.1 · Difficulty 3/5</div>
+      <div class="meta instruction">Find the enclosed area.</div>
+      <div class="statement">\( y=x^2+1,\ y=3x+1 \)</div>
+      <div class="answer">Answer: intersections at \(x=0,3\), so \( \displaystyle A=\int_0^3\big((3x+1)-(x^2+1)\big)\,dx=\frac{9}{2} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.1">
+      <div class="meta">Section 6.1 · Difficulty 3/5</div>
+      <div class="meta instruction">Find the enclosed area.</div>
+      <div class="statement">\( y=x,\ y=x^3 \)</div>
+      <div class="answer">Answer: intersections at \(x=-1,0,1\), total area \( \displaystyle \int_{-1}^{0}(x^3-x)\,dx+\int_0^1(x-x^3)\,dx=\frac{1}{2} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.1">
+      <div class="meta">Section 6.1 · Difficulty 4/5</div>
+      <div class="meta instruction">Find the enclosed area.</div>
+      <div class="statement">\( y=\sqrt{x},\ y=x \)</div>
+      <div class="answer">Answer: intersections at \(x=0,1\), so \( \displaystyle A=\int_0^1(\sqrt{x}-x)\,dx=\frac{1}{6} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.1">
+      <div class="meta">Section 6.1 · Difficulty 4/5</div>
+      <div class="meta instruction">Find the enclosed area using integration with respect to \(y\).</div>
+      <div class="statement">\( x=y^2,\ x=2y \)</div>
+      <div class="answer">Answer: intersections at \(y=0,2\), so \( \displaystyle A=\int_0^2(2y-y^2)\,dy=\frac{4}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.1">
+      <div class="meta">Section 6.1 · Difficulty 5/5</div>
+      <div class="meta instruction">Find the enclosed area.</div>
+      <div class="statement">\( y=x^3,\ y=x^2 \)</div>
+      <div class="answer">Answer: intersections at \(x=0,1\), so \( \displaystyle A=\int_0^1(x^2-x^3)\,dx=\frac{1}{12} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.1">
+      <div class="meta">Section 6.1 · Difficulty 5/5</div>
+      <div class="meta instruction">Find the area enclosed by the curves.</div>
+      <div class="statement">\( y=x^2-2x,\ y=-x \)</div>
+      <div class="answer">Answer: intersections at \(x=0,1\), so \( \displaystyle A=\int_0^1\big((-x)-(x^2-2x)\big)\,dx=\frac{1}{6} \)</div>
+    </div>
+
+    <!-- SECTION 6.2 -->
+    <div class="problem" data-section="6.2">
+      <div class="meta">Section 6.2 · Difficulty 1/5</div>
+      <div class="meta instruction">Find the average value of the function on the interval.</div>
+      <div class="statement">\( f(x)=x,\ [0,4] \)</div>
+      <div class="answer">Answer: \( \displaystyle f_{\text{avg}}=\frac{1}{4}\int_0^4 x\,dx=2 \)</div>
+    </div>
+
+    <div class="problem" data-section="6.2">
+      <div class="meta">Section 6.2 · Difficulty 1/5</div>
+      <div class="meta instruction">Find the average value of the function on the interval.</div>
+      <div class="statement">\( f(x)=3,\ [2,7] \)</div>
+      <div class="answer">Answer: \( 3 \)</div>
+    </div>
+
+    <div class="problem" data-section="6.2">
+      <div class="meta">Section 6.2 · Difficulty 2/5</div>
+      <div class="meta instruction">Find the average value of the function on the interval.</div>
+      <div class="statement">\( f(x)=x^2,\ [0,3] \)</div>
+      <div class="answer">Answer: \( \displaystyle f_{\text{avg}}=\frac{1}{3}\int_0^3 x^2\,dx=3 \)</div>
+    </div>
+
+    <div class="problem" data-section="6.2">
+      <div class="meta">Section 6.2 · Difficulty 2/5</div>
+      <div class="meta instruction">Find the average value of the function on the interval.</div>
+      <div class="statement">\( f(x)=4-x,\ [0,4] \)</div>
+      <div class="answer">Answer: \( \displaystyle f_{\text{avg}}=\frac{1}{4}\int_0^4 (4-x)\,dx=2 \)</div>
+    </div>
+
+    <div class="problem" data-section="6.2">
+      <div class="meta">Section 6.2 · Difficulty 3/5</div>
+      <div class="meta instruction">Find the average value of the function on the interval.</div>
+      <div class="statement">\( f(x)=\sqrt{x},\ [0,4] \)</div>
+      <div class="answer">Answer: \( \displaystyle f_{\text{avg}}=\frac{1}{4}\int_0^4 \sqrt{x}\,dx=\frac{4}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.2">
+      <div class="meta">Section 6.2 · Difficulty 3/5</div>
+      <div class="meta instruction">Find the average value of the function on the interval.</div>
+      <div class="statement">\( f(x)=\dfrac{1}{x},\ [1,4] \)</div>
+      <div class="answer">Answer: \( \displaystyle f_{\text{avg}}=\frac{1}{3}\int_1^4 \frac{1}{x}\,dx=\frac{\ln 4}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.2">
+      <div class="meta">Section 6.2 · Difficulty 4/5</div>
+      <div class="meta instruction">Find the average value of the function on the interval.</div>
+      <div class="statement">\( f(x)=x+\dfrac{1}{x},\ [1,2] \)</div>
+      <div class="answer">Answer: \( \displaystyle f_{\text{avg}}=\int_1^2 \left(x+\frac{1}{x}\right)dx=\frac{3}{2}+\ln 2 \)</div>
+    </div>
+
+    <div class="problem" data-section="6.2">
+      <div class="meta">Section 6.2 · Difficulty 4/5</div>
+      <div class="meta instruction">Find the average value of the function on the interval.</div>
+      <div class="statement">\( f(x)=x^3-2x,\ [-1,2] \)</div>
+      <div class="answer">Answer: \( \displaystyle f_{\text{avg}}=\frac{1}{3}\int_{-1}^{2}(x^3-2x)\,dx=\frac{1}{4} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.2">
+      <div class="meta">Section 6.2 · Difficulty 5/5</div>
+      <div class="meta instruction">A cross-sectional area perpendicular to the \(x\)-axis is \(A(x)=x^2+1\) for \(0\le x\le 2\). Find the volume.</div>
+      <div class="statement">\( A(x)=x^2+1,\ 0\le x\le 2 \)</div>
+      <div class="answer">Answer: \( \displaystyle V=\int_0^2 (x^2+1)\,dx=\frac{14}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.2">
+      <div class="meta">Section 6.2 · Difficulty 5/5</div>
+      <div class="meta instruction">A solid has cross-sectional area \(A(x)=9-x^2\) on \([-3,3]\). Find the volume.</div>
+      <div class="statement">\( A(x)=9-x^2,\ -3\le x\le 3 \)</div>
+      <div class="answer">Answer: \( \displaystyle V=\int_{-3}^{3}(9-x^2)\,dx=36 \)</div>
+    </div>
+
+    <!-- SECTION 6.3 -->
+    <div class="problem" data-section="6.3">
+      <div class="meta">Section 6.3 · Difficulty 1/5</div>
+      <div class="meta instruction">Set up and evaluate the volume using disks or washers.</div>
+      <div class="statement">Rotate the region under \( y=x \) on \( [0,2] \) about the \(x\)-axis.</div>
+      <div class="answer">Answer: \( \displaystyle V=\pi\int_0^2 x^2\,dx=\frac{8\pi}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.3">
+      <div class="meta">Section 6.3 · Difficulty 1/5</div>
+      <div class="meta instruction">Set up and evaluate the volume using disks or washers.</div>
+      <div class="statement">Rotate the region under \( y=3 \) on \( [0,4] \) about the \(x\)-axis.</div>
+      <div class="answer">Answer: \( \displaystyle V=\pi\int_0^4 3^2\,dx=36\pi \)</div>
+    </div>
+
+    <div class="problem" data-section="6.3">
+      <div class="meta">Section 6.3 · Difficulty 2/5</div>
+      <div class="meta instruction">Find the volume of the solid of revolution.</div>
+      <div class="statement">Rotate the region bounded by \( y=\sqrt{x},\ x=4,\ y=0 \) about the \(x\)-axis.</div>
+      <div class="answer">Answer: \( \displaystyle V=\pi\int_0^4 (\sqrt{x})^2\,dx=\pi\int_0^4 x\,dx=8\pi \)</div>
+    </div>
+
+    <div class="problem" data-section="6.3">
+      <div class="meta">Section 6.3 · Difficulty 2/5</div>
+      <div class="meta instruction">Find the volume of the solid of revolution.</div>
+      <div class="statement">Rotate the region between \( y=4 \) and \( y=x \) on \( [0,4] \) about the \(x\)-axis.</div>
+      <div class="answer">Answer: \( \displaystyle V=\pi\int_0^4(4^2-x^2)\,dx=\frac{128\pi}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.3">
+      <div class="meta">Section 6.3 · Difficulty 3/5</div>
+      <div class="meta instruction">Find the volume of the solid of revolution.</div>
+      <div class="statement">Rotate the region bounded by \( y=x^2,\ y=0,\ 0\le x\le 2 \) about the \(y\)-axis using washers with respect to \(y\).</div>
+      <div class="answer">Answer: \( x=\sqrt{y},\ 0\le y\le 4,\ \displaystyle V=\pi\int_0^4 (\sqrt{y})^2\,dy=8\pi \)</div>
+    </div>
+
+    <div class="problem" data-section="6.3">
+      <div class="meta">Section 6.3 · Difficulty 3/5</div>
+      <div class="meta instruction">Find the volume of the solid of revolution.</div>
+      <div class="statement">Rotate the region between \( y=x^2 \) and \( y=4 \) about the \(x\)-axis.</div>
+      <div class="answer">Answer: intersections at \(x=\pm2\), \( \displaystyle V=\pi\int_{-2}^{2}(4^2-(x^2)^2)\,dx=\frac{256\pi}{5} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.3">
+      <div class="meta">Section 6.3 · Difficulty 4/5</div>
+      <div class="meta instruction">Find the volume of the solid of revolution.</div>
+      <div class="statement">Rotate the region between \( y=x \) and \( y=x^2 \) about the \(x\)-axis.</div>
+      <div class="answer">Answer: on \(0\le x\le1\), \( \displaystyle V=\pi\int_0^1(x^2-x^4)\,dx=\frac{2\pi}{15} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.3">
+      <div class="meta">Section 6.3 · Difficulty 4/5</div>
+      <div class="meta instruction">Find the volume of the solid of revolution.</div>
+      <div class="statement">Rotate the region between \( y=2x \) and \( y=x^2 \) about the \(x\)-axis.</div>
+      <div class="answer">Answer: on \(0\le x\le2\), \( \displaystyle V=\pi\int_0^2\big((2x)^2-(x^2)^2\big)\,dx=\frac{64\pi}{15} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.3">
+      <div class="meta">Section 6.3 · Difficulty 5/5</div>
+      <div class="meta instruction">Find the volume of the solid of revolution.</div>
+      <div class="statement">Rotate the region bounded by \( y=\sqrt{x},\ y=0,\ x=4 \) about \( y=-1 \).</div>
+      <div class="answer">Answer: \( \displaystyle V=\pi\int_0^4\left((\sqrt{x}+1)^2-1^2\right)\,dx=\pi\int_0^4(x+2\sqrt{x})\,dx=\frac{56\pi}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.3">
+      <div class="meta">Section 6.3 · Difficulty 5/5</div>
+      <div class="meta instruction">Find the volume of the solid of revolution.</div>
+      <div class="statement">Rotate the region between \( y=4-x^2 \) and \( y=0 \) about the \(x\)-axis.</div>
+      <div class="answer">Answer: \( \displaystyle V=\pi\int_{-2}^{2}(4-x^2)^2\,dx=\frac{512\pi}{15} \)</div>
+    </div>
+
+    <!-- SECTION 6.4 -->
+    <div class="problem" data-section="6.4">
+      <div class="meta">Section 6.4 · Difficulty 1/5</div>
+      <div class="meta instruction">Use the shell method to find the volume.</div>
+      <div class="statement">Rotate the region under \( y=x \) on \( [0,2] \) about the \(y\)-axis.</div>
+      <div class="answer">Answer: \( \displaystyle V=2\pi\int_0^2 x(x)\,dx=2\pi\int_0^2 x^2\,dx=\frac{16\pi}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.4">
+      <div class="meta">Section 6.4 · Difficulty 1/5</div>
+      <div class="meta instruction">Use the shell method to find the volume.</div>
+      <div class="statement">Rotate the region under \( y=3 \) on \( [0,4] \) about the \(y\)-axis.</div>
+      <div class="answer">Answer: \( \displaystyle V=2\pi\int_0^4 x(3)\,dx=48\pi \)</div>
+    </div>
+
+    <div class="problem" data-section="6.4">
+      <div class="meta">Section 6.4 · Difficulty 2/5</div>
+      <div class="meta instruction">Use the shell method to find the volume.</div>
+      <div class="statement">Rotate the region bounded by \( y=x^2,\ y=0,\ x=3 \) about the \(y\)-axis.</div>
+      <div class="answer">Answer: \( \displaystyle V=2\pi\int_0^3 x(x^2)\,dx=\frac{81\pi}{2} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.4">
+      <div class="meta">Section 6.4 · Difficulty 2/5</div>
+      <div class="meta instruction">Use the shell method to find the volume.</div>
+      <div class="statement">Rotate the region under \( y=\sqrt{x} \) on \( [0,4] \) about the \(y\)-axis.</div>
+      <div class="answer">Answer: \( \displaystyle V=2\pi\int_0^4 x\sqrt{x}\,dx=\frac{128\pi}{5} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.4">
+      <div class="meta">Section 6.4 · Difficulty 3/5</div>
+      <div class="meta instruction">Use the shell method to find the volume.</div>
+      <div class="statement">Rotate the region between \( y=x \) and \( y=x^2 \) about the \(y\)-axis.</div>
+      <div class="answer">Answer: \( \displaystyle V=2\pi\int_0^1 x(x-x^2)\,dx=\frac{\pi}{6} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.4">
+      <div class="meta">Section 6.4 · Difficulty 3/5</div>
+      <div class="meta instruction">Use the shell method to find the volume.</div>
+      <div class="statement">Rotate the region between \( y=2x \) and \( y=x^2 \) about the \(y\)-axis.</div>
+      <div class="answer">Answer: \( \displaystyle V=2\pi\int_0^2 x(2x-x^2)\,dx=\frac{8\pi}{3} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.4">
+      <div class="meta">Section 6.4 · Difficulty 4/5</div>
+      <div class="meta instruction">Use the shell method to find the volume.</div>
+      <div class="statement">Rotate the region bounded by \( y=4-x^2,\ y=0 \) about the \(y\)-axis.</div>
+      <div class="answer">Answer: \( \displaystyle V=2\pi\int_0^2 x(4-x^2)\,dx=8\pi \)</div>
+    </div>
+
+    <div class="problem" data-section="6.4">
+      <div class="meta">Section 6.4 · Difficulty 4/5</div>
+      <div class="meta instruction">Use the shell method to find the volume.</div>
+      <div class="statement">Rotate the region bounded by \( y=x^2,\ y=4 \) about the \(y\)-axis.</div>
+      <div class="answer">Answer: \( \displaystyle V=2\pi\int_0^2 x(4-x^2)\,dx=8\pi \)</div>
+    </div>
+
+    <div class="problem" data-section="6.4">
+      <div class="meta">Section 6.4 · Difficulty 5/5</div>
+      <div class="meta instruction">Use the shell method to find the volume.</div>
+      <div class="statement">Rotate the region bounded by \( y=\sqrt{x},\ y=0,\ x=4 \) about \( x=-1 \).</div>
+      <div class="answer">Answer: radius \(=x+1\), height \(=\sqrt{x}\), so \( \displaystyle V=2\pi\int_0^4 (x+1)\sqrt{x}\,dx=\frac{368\pi}{15} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.4">
+      <div class="meta">Section 6.4 · Difficulty 5/5</div>
+      <div class="meta instruction">Use the shell method to find the volume.</div>
+      <div class="statement">Rotate the region between \( y=x \) and \( y=x^2 \) about \( x=2 \).</div>
+      <div class="answer">Answer: radius \(=2-x\), height \(=x-x^2\), so \( \displaystyle V=2\pi\int_0^1 (2-x)(x-x^2)\,dx=\frac{\pi}{2} \)</div>
+    </div>
+
+    <!-- SECTION 6.5 -->
+    <div class="problem" data-section="6.5">
+      <div class="meta">Section 6.5 · Difficulty 1/5</div>
+      <div class="meta instruction">Find the work done by a constant force.</div>
+      <div class="statement">A force of \(10\) N moves an object \(6\) m.</div>
+      <div class="answer">Answer: \( W=Fd=10\cdot 6=60\text{ J} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.5">
+      <div class="meta">Section 6.5 · Difficulty 1/5</div>
+      <div class="meta instruction">Find the work done by a variable force.</div>
+      <div class="statement">\( F(x)=3x,\ 0\le x\le 4 \)</div>
+      <div class="answer">Answer: \( \displaystyle W=\int_0^4 3x\,dx=24\text{ J} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.5">
+      <div class="meta">Section 6.5 · Difficulty 2/5</div>
+      <div class="meta instruction">Find the work required to stretch the spring.</div>
+      <div class="statement">A spring has force law \(F(x)=8x\). Find the work to stretch it from \(x=0\) to \(x=3\).</div>
+      <div class="answer">Answer: \( \displaystyle W=\int_0^3 8x\,dx=36\text{ J} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.5">
+      <div class="meta">Section 6.5 · Difficulty 2/5</div>
+      <div class="meta instruction">Find the work required to lift the object.</div>
+      <div class="statement">Lift a \(20\)-kg mass upward \(5\) m. Use \(g=9.8\text{ m/s}^2\).</div>
+      <div class="answer">Answer: \( W=mgh=20(9.8)(5)=980\text{ J} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.5">
+      <div class="meta">Section 6.5 · Difficulty 3/5</div>
+      <div class="meta instruction">A cable weighs \(4\) N/m and is \(10\) m long. Find the work required to lift the entire cable vertically.</div>
+      <div class="statement">Cable weight density \(=4\text{ N/m}\), length \(=10\text{ m}\)</div>
+      <div class="answer">Answer: \( \displaystyle W=\int_0^{10} 4x\,dx=200\text{ J} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.5">
+      <div class="meta">Section 6.5 · Difficulty 3/5</div>
+      <div class="meta instruction">A \(15\)-m rope weighs \(3\) N/m. How much work is required to pull the entire rope up to the top of a building?</div>
+      <div class="statement">Rope weight density \(=3\text{ N/m}\), length \(=15\text{ m}\)</div>
+      <div class="answer">Answer: \( \displaystyle W=\int_0^{15} 3x\,dx=\frac{675}{2}\text{ J} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.5">
+      <div class="meta">Section 6.5 · Difficulty 4/5</div>
+      <div class="meta instruction">A spring requires \(12\) N of force to hold it stretched \(0.5\) m beyond equilibrium. Find the work required to stretch it from equilibrium to \(1\) m.</div>
+      <div class="statement">Use Hooke’s Law.</div>
+      <div class="answer">Answer: \(k=\frac{12}{0.5}=24\), so \( \displaystyle W=\int_0^1 24x\,dx=12\text{ J} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.5">
+      <div class="meta">Section 6.5 · Difficulty 4/5</div>
+      <div class="meta instruction">A tank is full of water. Water weighs \(9800\text{ N/m}^3\). The tank is \(2\) m deep and has constant cross-sectional area \(3\text{ m}^2\). Find the work to pump all water to the top.</div>
+      <div class="statement">Rectangular tank, depth \(2\) m, area \(3\text{ m}^2\)</div>
+      <div class="answer">Answer: \( \displaystyle W=\int_0^2 9800(3)(2-y)\,dy=58800\text{ J} \)</div>
+    </div>
+
+    <div class="problem" data-section="6.5">
+      <div class="meta">Section 6.5 · Difficulty 5/5</div>
+      <div class="meta instruction">A bucket weighing \(30\) N is lifted \(20\) m by a rope weighing \(2\) N/m. Find the total work.</div>
+      <div class="statement">Include both bucket and rope.</div>
+      <div class="answer">Answer: bucket work \(=30(20)=600\), rope work \( \displaystyle =\int_0^{20}2x\,dx=400\), total \(=1000\text{ J}\)</div>
+    </div>
+
+    <div class="problem" data-section="6.5">
+      <div class="meta">Section 6.5 · Difficulty 5/5</div>
+      <div class="meta instruction">A cylindrical tank of radius \(1\) m and depth \(3\) m is full of water. Water weighs \(9800\text{ N/m}^3\). Find the work required to pump all water to the top rim.</div>
+      <div class="statement">Radius \(1\), depth \(3\)</div>
+      <div class="answer">Answer: area \(=\pi\), so \( \displaystyle W=\int_0^3 9800\pi(3-y)\,dy=44100\pi\text{ J} \)</div>
+    </div>
+
+    <!-- SECTION 7.1 -->
+    <div class="problem" data-section="7.1">
+      <div class="meta">Section 7.1 · Difficulty 1/5</div>
+      <div class="meta instruction">Differentiate.</div>
+      <div class="statement">\( \dfrac{d}{dx}(e^x) \)</div>
+      <div class="answer">Answer: \( e^x \)</div>
+    </div>
+
+    <div class="problem" data-section="7.1">
+      <div class="meta">Section 7.1 · Difficulty 1/5</div>
+      <div class="meta instruction">Differentiate.</div>
+      <div class="statement">\( \dfrac{d}{dx}(2^x) \)</div>
+      <div class="answer">Answer: \( 2^x\ln 2 \)</div>
+    </div>
+
+    <div class="problem" data-section="7.1">
+      <div class="meta">Section 7.1 · Difficulty 2/5</div>
+      <div class="meta instruction">Differentiate.</div>
+      <div class="statement">\( \dfrac{d}{dx}(e^{3x}) \)</div>
+      <div class="answer">Answer: \( 3e^{3x} \)</div>
+    </div>
+
+    <div class="problem" data-section="7.1">
+      <div class="meta">Section 7.1 · Difficulty 2/5</div>
+      <div class="meta instruction">Differentiate.</div>
+      <div class="statement">\( \dfrac{d}{dx}(5^{2x}) \)</div>
+      <div class="answer">Answer: \( 2\cdot 5^{2x}\ln 5 \)</div>
+    </div>
+
+    <div class="problem" data-section="7.1">
+      <div class="meta">Section 7.1 · Difficulty 3/5</div>
+      <div class="meta instruction">Differentiate.</div>
+      <div class="statement">\( \dfrac{d}{dx}\left(xe^x\right) \)</div>
+      <div class="answer">Answer: \( e^x+xe^x=e^x(1+x) \)</div>
+    </div>
+
+    <div class="problem" data-section="7.1">
+      <div class="meta">Section 7.1 · Difficulty 3/5</div>
+      <div class="meta instruction">Find the antiderivative.</div>
+      <div class="statement">\( \displaystyle \int e^{4x}\,dx \)</div>
+      <div class="answer">Answer: \( \displaystyle \frac{1}{4}e^{4x}+C \)</div>
+    </div>
+
+    <div class="problem" data-section="7.1">
+      <div class="meta">Section 7.1 · Difficulty 4/5</div>
+      <div class="meta instruction">Differentiate.</div>
+      <div class="statement">\( y=e^{x^2+1} \)</div>
+      <div class="answer">Answer: \( y'=2x\,e^{x^2+1} \)</div>
+    </div>
+
+    <div class="problem" data-section="7.1">
+      <div class="meta">Section 7.1 · Difficulty 4/5</div>
+      <div class="meta instruction">Find the antiderivative.</div>
+      <div class="statement">\( \displaystyle \int 3^x\,dx \)</div>
+      <div class="answer">Answer: \( \displaystyle \frac{3^x}{\ln 3}+C \)</div>
+    </div>
+
+    <div class="problem" data-section="7.1">
+      <div class="meta">Section 7.1 · Difficulty 5/5</div>
+      <div class="meta instruction">Solve for the population.</div>
+      <div class="statement">A population is modeled by \( P(t)=200e^{2t} \). Find the initial population and the time when the population is \(1000\).</div>
+      <div class="answer">Answer: \(P(0)=200\). For \(1000\): \(200e^{2t}=1000\Rightarrow e^{2t}=5\Rightarrow 2t=\ln 5\Rightarrow t=\dfrac{\ln 5}{2}\)</div>
+    </div>
+
+    <div class="problem" data-section="7.1">
+      <div class="meta">Section 7.1 · Difficulty 5/5</div>
+      <div class="meta instruction">Find the tangent line to the curve at the given point.</div>
+      <div class="statement">\( y=e^{2x},\ x=0 \)</div>
+      <div class="answer">Answer: point \(=(0,1)\), slope \(=2e^{0}=2\), so tangent line is \( y-1=2(x-0) \), i.e. \( y=2x+1 \)</div>
+    </div>
+
+    <!-- SECTION 7.2 -->
+    <div class="problem" data-section="7.2">
+      <div class="meta">Section 7.2 · Difficulty 1/5</div>
+      <div class="meta instruction">Differentiate.</div>
+      <div class="statement">\( \dfrac{d}{dx}(\ln x) \)</div>
+      <div class="answer">Answer: \( \dfrac{1}{x} \)</div>
+    </div>
+
+    <div class="problem" data-section="7.2">
+      <div class="meta">Section 7.2 · Difficulty 1/5</div>
+      <div class="meta instruction">Differentiate.</div>
+      <div class="statement">\( \dfrac{d}{dx}(\ln(4x-2)) \)</div>
+      <div class="answer">Answer: \( \dfrac{4}{4x-2} \)</div>
+    </div>
+
+    <div class="problem" data-section="7.2">
+      <div class="meta">Section 7.2 · Difficulty 2/5</div>
+      <div class="meta instruction">Differentiate.</div>
+      <div class="statement">\( \dfrac{d}{dx}(\log_2 x) \)</div>
+      <div class="answer">Answer: \( \dfrac{1}{x\ln 2} \)</div>
+    </div>
+
+    <div class="problem" data-section="7.2">
+      <div class="meta">Section 7.2 · Difficulty 2/5</div>
+      <div class="meta instruction">Differentiate.</div>
+      <div class="statement">\( y=\ln(x^2+1) \)</div>
+      <div class="answer">Answer: \( y'=\dfrac{2x}{x^2+1} \)</div>
+    </div>
+
+    <div class="problem" data-section="7.2">
+      <div class="meta">Section 7.2 · Difficulty 3/5</div>
+      <div class="meta instruction">Use the inverse-function derivative formula.</div>
+      <div class="statement">If \( f(x)=x^3+1 \), find \( (f^{-1})'(9) \).</div>
+      <div class="answer">Answer: \( f^{-1}(9)=2 \) since \(2^3+1=9\). Then \( f'(x)=3x^2 \), so \( (f^{-1})'(9)=\dfrac{1}{f'(2)}=\dfrac{1}{12} \)</div>
+    </div>
+
+    <div class="problem" data-section="7.2">
+      <div class="meta">Section 7.2 · Difficulty 3/5</div>
+      <div class="meta instruction">Use the inverse-function derivative formula.</div>
+      <div class="statement">If \( f(x)=2x+5 \), find \( (f^{-1})'(11) \).</div>
+      <div class="answer">Answer: \( f^{-1}(11)=3 \), \(f'(x)=2\), so \( (f^{-1})'(11)=\dfrac{1}{2} \)</div>
+    </div>
+
+    <div class="problem" data-section="7.2">
+      <div class="meta">Section 7.2 · Difficulty 4/5</div>
+      <div class="meta instruction">Find the derivative.</div>
+      <div class="statement">\( y=x^{3x}+\ln(4x-2) \)</div>
+      <div class="answer">Answer: \( \dfrac{d}{dx}(x^{3x})=x^{3x}(3\ln x+3) \), so \( y'=x^{3x}(3\ln x+3)+\dfrac{4}{4x-2} \)</div>
+    </div>
+
+    <div class="problem" data-section="7.2">
+      <div class="meta">Section 7.2 · Difficulty 4/5</div>
+      <div class="meta instruction">Differentiate logarithmically.</div>
+      <div class="statement">\( y=(x^2+1)^x \)</div>
+      <div class="answer">Answer: \( \ln y=x\ln(x^2+1) \Rightarrow \dfrac{y'}{y}=\ln(x^2+1)+\dfrac{2x^2}{x^2+1} \), so \( y'=(x^2+1)^x\left[\ln(x^2+1)+\dfrac{2x^2}{x^2+1}\right] \)</div>
+    </div>
+
+    <div class="problem" data-section="7.2">
+      <div class="meta">Section 7.2 · Difficulty 5/5</div>
+      <div class="meta instruction">Find the tangent line to the inverse function.</div>
+      <div class="statement">\( f(x)=x^2+13x,\ x\ge -\dfrac{13}{2} \). Find the slope of the tangent line to \(f^{-1}\) at \(x=30\).</div>
+      <div class="answer">Answer: solve \(x^2+13x=30\Rightarrow x=2\) or \(-15\). Domain gives \(x\ge -13/2\), so use \(x=2\). Then \(f'(x)=2x+13\), so \( (f^{-1})'(30)=\dfrac{1}{f'(2)}=\dfrac{1}{17} \)</div>
+    </div>
+
+    <div class="problem" data-section="7.2">
+      <div class="meta">Section 7.2 · Difficulty 5/5</div>
+      <div class="meta instruction">Use inverse-function differentiation.</div>
+      <div class="statement">If \( f(x)=\sqrt{x^2+13x} \) with domain \( x\ge -\dfrac{13}{2} \), find \( (f^{-1})'(\sqrt{30}) \).</div>
+      <div class="answer">Answer: \( f^{-1}(\sqrt{30})=2 \) since \( \sqrt{2^2+13\cdot2}=\sqrt{30} \). Also \( f'(x)=\dfrac{2x+13}{2\sqrt{x^2+13x}} \), so \( f'(2)=\dfrac{17}{2\sqrt{30}} \). Therefore \( (f^{-1})'(\sqrt{30})=\dfrac{2\sqrt{30}}{17} \)</div>
+    </div>
+
+  </div>
+
+  <div class="footer-note">
+  </div>
+
+</div>
+
+<script>
+  const sectionSelect = document.getElementById("sectionSelect");
+  const newBtn = document.getElementById("newBtn");
+  const showBtn = document.getElementById("showBtn");
+  const formulaToggleBtn = document.getElementById("formulaToggleBtn");
+  const formulaSheet = document.getElementById("formulaSheet");
+  const problemContainer = document.getElementById("problemContainer");
+  const noProblemMessage = document.getElementById("noProblemMessage");
+  const problemBank = document.getElementById("problemBank");
+
+  const allProblems = Array.from(problemBank.querySelectorAll(".problem"));
+  const sectionMap = new Map();
+
+  allProblems.forEach(p => {
+    const sec = p.dataset.section || "unknown";
+    if (!sectionMap.has(sec)) sectionMap.set(sec, []);
+    sectionMap.get(sec).push(p);
+  });
+
+  function populateSections() {
+    const sections = Array.from(sectionMap.keys()).sort((a, b) => parseFloat(a) - parseFloat(b));
+    sections.forEach(sec => {
+      const opt = document.createElement("option");
+      opt.value = sec;
+      opt.textContent = "Section " + sec;
+      sectionSelect.appendChild(opt);
+    });
+  }
+  populateSections();
+
+  let currentProblem = null;
+
+  function getCandidates() {
+    const sec = sectionSelect.value;
+    if (sec === "all") return allProblems;
+    return sectionMap.get(sec) || [];
+  }
+
+  formulaToggleBtn.addEventListener("click", () => {
+    formulaSheet.classList.toggle("hidden");
+    formulaToggleBtn.textContent =
+      formulaSheet.classList.contains("hidden")
+        ? "Show Exam 1 Formula Sheet"
+        : "Hide Exam 1 Formula Sheet";
+  });
+
+  newBtn.addEventListener("click", () => {
+    const candidates = getCandidates();
+
+    if (!candidates.length) {
+      problemContainer.innerHTML = "";
+      noProblemMessage.textContent = "No problems available for this selection.";
+      noProblemMessage.style.display = "block";
+      currentProblem = null;
+      return;
+    }
+
+    const idx = Math.floor(Math.random() * candidates.length);
+    const template = candidates[idx];
+    const clone = template.cloneNode(true);
+
+    const ans = clone.querySelector(".answer");
+    if (ans) ans.classList.add("hidden");
+
+    problemContainer.innerHTML = "";
+    problemContainer.appendChild(clone);
+    noProblemMessage.style.display = "none";
+    currentProblem = clone;
+
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise([problemContainer]).catch(err => console.error(err));
+    }
+  });
+
+  showBtn.addEventListener("click", () => {
+    if (!currentProblem) return;
+    const ans = currentProblem.querySelector(".answer");
+    if (!ans) return;
+    ans.classList.toggle("hidden");
+
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise([problemContainer]).catch(err => console.error(err));
+    }
+  });
+</script>
+
+</body>
+</html>
