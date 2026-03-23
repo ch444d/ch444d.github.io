@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calc 2 - Exam 2</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #1f2937;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --border: #334155;
+      --warn: #f59e0b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #020617 0%, #0f172a 100%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    .hero {
+      background: rgba(17, 24, 39, 0.95);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+      margin-bottom: 22px;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      color: #f8fafc;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: 1.08rem;
+      margin-bottom: 10px;
+    }
+
+    p { margin: 0 0 12px; }
+
+    .muted { color: var(--muted); }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0 6px;
+    }
+
+    .badge {
+      background: #0b1220;
+      border: 1px solid var(--border);
+      color: #dbeafe;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin: 22px 0;
+    }
+
+    .card {
+      background: rgba(17, 24, 39, 0.95);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+    }
+
+    .section {
+      margin-top: 28px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12);
+      color: #bae6fd;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      font-size: 0.88rem;
+    }
+
+    .difficulty {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      background: rgba(245, 158, 11, 0.12);
+      color: #fde68a;
+      font-size: 0.86rem;
+    }
+
+    .directions {
+      border-left: 4px solid var(--accent);
+      padding: 14px 16px;
+      background: rgba(15, 23, 42, 0.85);
+      border-radius: 10px;
+      margin: 12px 0 18px;
+    }
+
+    .formula-box {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .formula-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px 20px;
+    }
+
+    .formula-item {
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    details {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-top: 12px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+      color: #e2e8f0;
+    }
+
+    ul {
+      margin-top: 8px;
+      padding-left: 22px;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      margin-top: 26px;
+      font-size: 0.95rem;
+    }
+
+    .problem-count {
+      font-weight: bold;
+      color: #bfdbfe;
+    }
+
+    a {
+      color: #7dd3fc;
+    }
+  </style>
+  <script>
+    function toggleSection(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.open = !el.open;
+    }
+  </script>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(','\\)'], ['$', '$']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Calc 2 - Exam 2</h1>
+      <p>This practice page is modeled after the exam topics from the uploaded test. It includes the original-style problem set plus <strong>40 additional practice problems</strong> that are similar in style but not identical.</p>
+      <div class="badge-row">
+        <span class="badge">Single-file GitHub Pages HTML</span>
+        <span class="badge">MathJax enabled</span>
+        <span class="badge"><span class="problem-count">50 total problems</span></span>
+        <span class="badge">Difficulty varies intentionally</span>
+      </div>
+      <div class="directions">
+        <strong>Difficulty note:</strong> The difficulty varies across the set. Some problems are straightforward review, while others are harder and are meant to feel more like exam-level integration, inverse trig, logarithmic differentiation, or improper integral problems.
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Exam-Style Directions</h2>
+        <span class="pill">Read first</span>
+      </div>
+      <div class="card">
+        <p><strong>Problems 1-5:</strong> Work each problem.</p>
+        <p><strong>Problems 6-10:</strong> These are integration and improper integral style problems modeled after the original exam.</p>
+        <p><strong>Extra Practice 11-50:</strong> Similar topics, but not exact repeats. Difficulty varies.</p>
+        <p><strong>Formula Sheet:</strong> Included at the bottom of this page for quick review.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Original Exam-Inspired Set</h2>
+        <span class="pill">Problems 1-10</span>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <h3>Problem 1</h3>
+          <p>Compute \(\dfrac{dy}{dx}\) for each:</p>
+          <p>(a) \(y = 6x + \ln(2x+5) + \tan^{-1}(\cosh x)\)</p>
+          <p>(b) \(y = \sin(x^x)\)</p>
+          <span class="difficulty">Difficulty: varies, about 3/5 to 4/5</span>
+        </div>
+
+        <div class="card">
+          <h3>Problem 2</h3>
+          <p>Compute the following limits if they exist:</p>
+          <p>(a) \(\displaystyle \lim_{x\to 0} \frac{1-\cos(3x)}{2x^2+x-\sin x}\)</p>
+          <p>(b) Find the value of \(A\) so that L'Hospital's Rule applies, then compute</p>
+          <p>\(\displaystyle \lim_{x\to 3} \frac{x^2-2x+A}{2x-6}\)</p>
+          <span class="difficulty">Difficulty: about 3/5</span>
+        </div>
+
+        <div class="card">
+          <h3>Problem 3</h3>
+          <p>Compute each:</p>
+          <p>(a) \(\sin(\arcsin(-1))\)</p>
+          <p>(b) \(\arcsin(\sin(2\pi))\)</p>
+          <p>(c) \(\arctan(\cos \pi)\)</p>
+          <p>(d) \(\arcsin\!\left(\cos\!\left(\frac{\pi}{3}\right)\right)\)</p>
+          <p>(e) \(\arcsin(\cos \pi)\)</p>
+          <span class="difficulty">Difficulty: about 2/5 to 3/5</span>
+        </div>
+
+        <div class="card">
+          <h3>Problem 4</h3>
+          <p>A bacteria population grows according to \(P(t)=200e^{2t}\), where \(t\) is in days.</p>
+          <p>Find the initial population, when the population reaches 1000, and the rate of change after 3 days.</p>
+          <span class="difficulty">Difficulty: about 2/5 to 3/5</span>
+        </div>
+
+        <div class="card">
+          <h3>Problem 5</h3>
+          <p>Complete the identity using the triangle method:</p>
+          <p>\(\cos(\sin^{-1}(3x))\)</p>
+          <span class="difficulty">Difficulty: about 3/5</span>
+        </div>
+      </div>
+
+      <div class="directions">
+        <strong>Integration block directions (modeled after the exam):</strong> Treat Problems 6-10 as the core integration and improper integral portion. Difficulty varies across these problems.
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Problem 6</h3>
+          <p>Evaluate:</p>
+          <p>\(\displaystyle \int x^2\cos(3x)\,dx\)</p>
+          <span class="difficulty">Difficulty: about 4/5</span>
+        </div>
+
+        <div class="card">
+          <h3>Problem 7</h3>
+          <p>Evaluate:</p>
+          <p>\(\displaystyle \int \cos^6(x)\sin^3(x)\,dx\)</p>
+          <span class="difficulty">Difficulty: about 4/5</span>
+        </div>
+
+        <div class="card">
+          <h3>Problem 8</h3>
+          <p>Evaluate:</p>
+          <p>\(\displaystyle \int \frac{x^2}{\sqrt{9-x^2}}\,dx\)</p>
+          <span class="difficulty">Difficulty: about 3/5</span>
+        </div>
+
+        <div class="card">
+          <h3>Problem 9</h3>
+          <p>Evaluate:</p>
+          <p>\(\displaystyle \int \frac{5x-2}{x(x^2+1)}\,dx\)</p>
+          <span class="difficulty">Difficulty: about 3/5</span>
+        </div>
+
+        <div class="card">
+          <h3>Problem 10</h3>
+          <p>Determine whether the integral converges or diverges. If it converges, find its value:</p>
+          <p>\(\displaystyle \int_0^{\infty} \frac{x^4}{(1+x^5)^2}\,dx\)</p>
+          <span class="difficulty">Difficulty: about 4/5 to 5/5</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>40 Additional Practice Problems</h2>
+        <span class="pill">Problems 11-50</span>
+      </div>
+
+      <details open>
+        <summary>Derivative, limits, inverse trig, and exponential growth (11-20)</summary>
+        <div class="grid" style="margin-top:14px;">
+          <div class="card"><h3>11</h3><p>Compute \(\dfrac{dy}{dx}\): \(y = 4x + \ln(5x-1) + \tan^{-1}(\sinh x)\)</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>12</h3><p>Compute \(\dfrac{dy}{dx}\): \(y = \cos(x^x)\)</p><span class="difficulty">Difficulty: 4/5</span></div>
+          <div class="card"><h3>13</h3><p>Compute \(\displaystyle \lim_{x\to 0} \frac{1-\cos(4x)}{x^2}\)</p><span class="difficulty">Difficulty: 2/5</span></div>
+          <div class="card"><h3>14</h3><p>Find \(A\) so that L'Hospital's Rule applies, then compute \(\displaystyle \lim_{x\to 2} \frac{x^2-5x+A}{x-2}\).</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>15</h3><p>Compute: \(\sin(\arcsin(1/2))\)</p><span class="difficulty">Difficulty: 2/5</span></div>
+          <div class="card"><h3>16</h3><p>Compute: \(\arcsin(\sin(5\pi/6))\)</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>17</h3><p>Compute: \(\arctan(\cos 0)\)</p><span class="difficulty">Difficulty: 2/5</span></div>
+          <div class="card"><h3>18</h3><p>Use the triangle method to simplify \(\sin(\tan^{-1}(2x))\).</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>19</h3><p>A population grows according to \(P(t)=350e^{1.5t}\). Find the initial population and when it reaches 2000.</p><span class="difficulty">Difficulty: 2/5 to 3/5</span></div>
+          <div class="card"><h3>20</h3><p>For \(P(t)=120e^{0.8t}\), find \(P'(t)\) and then compute \(P'(4)\).</p><span class="difficulty">Difficulty: 2/5</span></div>
+        </div>
+      </details>
+
+      <details open>
+        <summary>Integration by parts and trig integrals (21-30)</summary>
+        <div class="grid" style="margin-top:14px;">
+          <div class="card"><h3>21</h3><p>Evaluate: \(\displaystyle \int x e^{2x}\,dx\)</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>22</h3><p>Evaluate: \(\displaystyle \int x^2 \sin(2x)\,dx\)</p><span class="difficulty">Difficulty: 4/5</span></div>
+          <div class="card"><h3>23</h3><p>Evaluate: \(\displaystyle \int x\ln x\,dx\)</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>24</h3><p>Evaluate: \(\displaystyle \int e^x\cos x\,dx\)</p><span class="difficulty">Difficulty: 4/5</span></div>
+          <div class="card"><h3>25</h3><p>Evaluate: \(\displaystyle \int \sin^3(x)\cos^4(x)\,dx\)</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>26</h3><p>Evaluate: \(\displaystyle \int \cos^5(x)\sin^2(x)\,dx\)</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>27</h3><p>Evaluate: \(\displaystyle \int \sin^2(x)\cos^2(x)\,dx\)</p><span class="difficulty">Difficulty: 4/5</span></div>
+          <div class="card"><h3>28</h3><p>Evaluate: \(\displaystyle \int \sec^3(x)\,dx\)</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>29</h3><p>Evaluate: \(\displaystyle \int \sec(x)\tan(x)\,dx\)</p><span class="difficulty">Difficulty: 2/5</span></div>
+          <div class="card"><h3>30</h3><p>Evaluate: \(\displaystyle \int \csc(x)\cot(x)\,dx\)</p><span class="difficulty">Difficulty: 2/5</span></div>
+        </div>
+      </details>
+
+      <details open>
+        <summary>Trig substitution and partial fractions (31-40)</summary>
+        <div class="grid" style="margin-top:14px;">
+          <div class="card"><h3>31</h3><p>Evaluate: \(\displaystyle \int \frac{dx}{\sqrt{16-x^2}}\)</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>32</h3><p>Evaluate: \(\displaystyle \int \frac{x^2}{\sqrt{25-x^2}}\,dx\)</p><span class="difficulty">Difficulty: 3/5 to 4/5</span></div>
+          <div class="card"><h3>33</h3><p>Evaluate: \(\displaystyle \int \frac{dx}{x\sqrt{x^2-9}}\)</p><span class="difficulty">Difficulty: 4/5</span></div>
+          <div class="card"><h3>34</h3><p>Evaluate: \(\displaystyle \int \sqrt{9-x^2}\,dx\)</p><span class="difficulty">Difficulty: 4/5</span></div>
+          <div class="card"><h3>35</h3><p>Evaluate: \(\displaystyle \int \frac{3x+5}{x(x+2)}\,dx\)</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>36</h3><p>Evaluate: \(\displaystyle \int \frac{2x+7}{x^2+x-6}\,dx\)</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>37</h3><p>Evaluate: \(\displaystyle \int \frac{x^2+1}{x(x-1)(x+1)}\,dx\)</p><span class="difficulty">Difficulty: 4/5</span></div>
+          <div class="card"><h3>38</h3><p>Evaluate: \(\displaystyle \int \frac{5}{x^2-4}\,dx\)</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>39</h3><p>Evaluate: \(\displaystyle \int \frac{4x-1}{x(x^2+4)}\,dx\)</p><span class="difficulty">Difficulty: 4/5</span></div>
+          <div class="card"><h3>40</h3><p>Evaluate: \(\displaystyle \int \frac{dx}{x^2-9}\)</p><span class="difficulty">Difficulty: 3/5</span></div>
+        </div>
+      </details>
+
+      <details open>
+        <summary>Improper integrals and mixed review (41-50)</summary>
+        <div class="grid" style="margin-top:14px;">
+          <div class="card"><h3>41</h3><p>Determine whether \(\displaystyle \int_1^{\infty} \frac{1}{x^2}\,dx\) converges or diverges. If it converges, find its value.</p><span class="difficulty">Difficulty: 2/5</span></div>
+          <div class="card"><h3>42</h3><p>Determine whether \(\displaystyle \int_1^{\infty} \frac{1}{x}\,dx\) converges or diverges.</p><span class="difficulty">Difficulty: 2/5</span></div>
+          <div class="card"><h3>43</h3><p>Determine whether \(\displaystyle \int_0^{1} \frac{1}{\sqrt{x}}\,dx\) converges or diverges. If it converges, find its value.</p><span class="difficulty">Difficulty: 2/5</span></div>
+          <div class="card"><h3>44</h3><p>Determine whether \(\displaystyle \int_0^{\infty} e^{-x}\,dx\) converges or diverges. If it converges, find its value.</p><span class="difficulty">Difficulty: 2/5</span></div>
+          <div class="card"><h3>45</h3><p>Determine whether \(\displaystyle \int_1^{\infty} \frac{1}{x^{3/2}}\,dx\) converges or diverges. If it converges, find its value.</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>46</h3><p>Determine whether \(\displaystyle \int_1^{\infty} \frac{dx}{x^{4/5}}\) converges or diverges.</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>47</h3><p>Evaluate: \(\displaystyle \int_0^{\infty} \frac{3}{(1+3x)^2}\,dx\)</p><span class="difficulty">Difficulty: 3/5</span></div>
+          <div class="card"><h3>48</h3><p>Evaluate: \(\displaystyle \int_2^{\infty} \frac{1}{x\ln x}\,dx\) or determine divergence.</p><span class="difficulty">Difficulty: 4/5</span></div>
+          <div class="card"><h3>49</h3><p>Evaluate: \(\displaystyle \int \cos(\ln x)\,dx\)</p><span class="difficulty">Difficulty: 4/5</span></div>
+          <div class="card"><h3>50</h3><p>Evaluate: \(\displaystyle \int \sin(\ln(2x))\,dx\)</p><span class="difficulty">Difficulty: 4/5</span></div>
+        </div>
+      </details>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Answer Key</h2>
+        <span class="pill">Hidden dropdowns</span>
+      </div>
+      <div class="card">
+        <p>Use the dropdowns below only after attempting the problems yourself.</p>
+
+        <details>
+          <summary>Problems 1-10 answers</summary>
+          <div style="margin-top:12px;">
+            <p><strong>1(a)</strong> \(y' = 6 + \dfrac{2}{2x+5} + \dfrac{\sinh x}{1+\cosh^2 x}\)</p>
+            <p><strong>1(b)</strong> \(y' = \cos(x^x)\,x^x(\ln x + 1)\)</p>
+            <p><strong>2(a)</strong> \(\dfrac{9}{2}\)</p>
+            <p><strong>2(b)</strong> \(A=-3\), and the limit is \(2\)</p>
+            <p><strong>3(a)</strong> \(-1\)</p>
+            <p><strong>3(b)</strong> \(0\)</p>
+            <p><strong>3(c)</strong> \(-\pi/4\)</p>
+            <p><strong>3(d)</strong> \(\pi/6\)</p>
+            <p><strong>3(e)</strong> does not exist in the real numbers since \(\arcsin(-1)= -\pi/2\) but here the input is \(\cos\pi=-1\), so the value is actually \(-\pi/2\)</p>
+            <p><strong>4</strong> Initial population \(=200\). Time to reach 1000: \(t=\frac{\ln 5}{2}\). Rate after 3 days: \(P'(3)=400e^6\)</p>
+            <p><strong>5</strong> \(\sqrt{1-9x^2}\)</p>
+            <p><strong>6</strong> \(\displaystyle \frac{x^2\sin(3x)}{3}+\frac{2x\cos(3x)}{9}-\frac{2\sin(3x)}{27}+C\)</p>
+            <p><strong>7</strong> \(\displaystyle \frac{\cos^9 x}{9}-\frac{2\cos^{11}x}{11}+\frac{\cos^{13}x}{13}+C\)</p>
+            <p><strong>8</strong> \(\displaystyle \frac{9}{2}\arcsin\!\left(\frac{x}{3}\right)-\frac{x}{2}\sqrt{9-x^2}+C\)</p>
+            <p><strong>9</strong> \(\displaystyle -2\ln|x|+\frac{9}{2}\ln(x^2+1)-2\arctan(x)+C\)</p>
+            <p><strong>10</strong> Converges to \(\dfrac{1}{5}\)</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Problems 11-20 answers</summary>
+          <div style="margin-top:12px;">
+            <p><strong>11</strong> \(y' = 4 + \dfrac{5}{5x-1} + \dfrac{\cosh x}{1+\sinh^2 x}\)</p>
+            <p><strong>12</strong> \(y' = -\sin(x^x)\,x^x(\ln x+1)\)</p>
+            <p><strong>13</strong> \(8\)</p>
+            <p><strong>14</strong> \(A=6\), limit \(=-1\)</p>
+            <p><strong>15</strong> \(1/2\)</p>
+            <p><strong>16</strong> \(\pi/6\)</p>
+            <p><strong>17</strong> \(\pi/4\)</p>
+            <p><strong>18</strong> \(\dfrac{2x}{\sqrt{1+4x^2}}\)</p>
+            <p><strong>19</strong> Initial population \(=350\), reaching 2000 at \(t=\dfrac{1}{1.5}\ln\!\left(\dfrac{40}{7}\right)\)</p>
+            <p><strong>20</strong> \(P'(t)=96e^{0.8t}\), so \(P'(4)=96e^{3.2}\)</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Problems 21-30 answers</summary>
+          <div style="margin-top:12px;">
+            <p><strong>21</strong> \(\displaystyle \frac{1}{2}xe^{2x}-\frac{1}{4}e^{2x}+C\)</p>
+            <p><strong>22</strong> \(\displaystyle -\frac{x^2\cos(2x)}{2}+\frac{x\sin(2x)}{2}+\frac{\cos(2x)}{4}+C\)</p>
+            <p><strong>23</strong> \(\displaystyle \frac{x^2}{2}\ln x-\frac{x^2}{4}+C\)</p>
+            <p><strong>24</strong> \(\displaystyle \frac{e^x(\sin x+\cos x)}{2}+C\)</p>
+            <p><strong>25</strong> \(\displaystyle \frac{\cos^7 x}{7}-\frac{\cos^5 x}{5}+C\)</p>
+            <p><strong>26</strong> \(\displaystyle \frac{\sin^3 x}{3}-\frac{2\sin^5 x}{5}+\frac{\sin^7 x}{7}+C\)</p>
+            <p><strong>27</strong> \(\displaystyle \frac{x}{8}-\frac{\sin(4x)}{32}+C\)</p>
+            <p><strong>28</strong> \(\displaystyle \frac12\sec x\tan x+\frac12\ln|\sec x+\tan x|+C\)</p>
+            <p><strong>29</strong> \(\sec x + C\)</p>
+            <p><strong>30</strong> \(-\csc x + C\)</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Problems 31-40 answers</summary>
+          <div style="margin-top:12px;">
+            <p><strong>31</strong> \(\arcsin(x/4)+C\)</p>
+            <p><strong>32</strong> \(\displaystyle \frac{25}{2}\arcsin\!\left(\frac{x}{5}\right)-\frac{x}{2}\sqrt{25-x^2}+C\)</p>
+            <p><strong>33</strong> \(\displaystyle \frac{1}{3}\sec^{-1}\!\left(\frac{|x|}{3}\right)+C\)</p>
+            <p><strong>34</strong> \(\displaystyle \frac{x}{2}\sqrt{9-x^2}+\frac{9}{2}\arcsin\!\left(\frac{x}{3}\right)+C\)</p>
+            <p><strong>35</strong> \(\displaystyle \frac{5}{2}\ln|x|+\frac{1}{2}\ln|x+2|+C\)</p>
+            <p><strong>36</strong> \(\displaystyle \frac{11}{5}\ln|x-2|-\frac{1}{5}\ln|x+3|+C\)</p>
+            <p><strong>37</strong> \(\ln|x|-\frac{1}{x-1}+\frac{1}{x+1}+C\)</p>
+            <p><strong>38</strong> \(\displaystyle \frac{5}{4}\ln\left|\frac{x-2}{x+2}\right|+C\)</p>
+            <p><strong>39</strong> \(\displaystyle -\frac14\ln|x|+\frac18\ln(x^2+4)+\frac72\arctan(x/2)+C\)</p>
+            <p><strong>40</strong> \(\displaystyle \frac{1}{6}\ln\left|\frac{x-3}{x+3}\right|+C\)</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Problems 41-50 answers</summary>
+          <div style="margin-top:12px;">
+            <p><strong>41</strong> Converges to \(1\)</p>
+            <p><strong>42</strong> Diverges</p>
+            <p><strong>43</strong> Converges to \(2\)</p>
+            <p><strong>44</strong> Converges to \(1\)</p>
+            <p><strong>45</strong> Converges to \(2\)</p>
+            <p><strong>46</strong> Diverges</p>
+            <p><strong>47</strong> Converges to \(1\)</p>
+            <p><strong>48</strong> Diverges</p>
+            <p><strong>49</strong> \(\displaystyle \frac{x}{2}(\sin(\ln x)+\cos(\ln x))+C\)</p>
+            <p><strong>50</strong> \(\displaystyle \frac{x}{2}(\sin(\ln(2x))-\cos(\ln(2x)))+C\)</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Answer Key</h2>
+        <span class="pill">Hidden dropdowns</span>
+      </div>
+      <div class="card">
+        <p>Use the dropdowns below only after attempting the problems yourself.</p>
+        <details>
+          <summary>Problems 1-10 answers</summary>
+          <div style="margin-top:12px;">
+            <p><strong>1(a)</strong> \\(y' = 6 + \\dfrac{2}{2x+5} + \\dfrac{\\sinh x}{1+\\cosh^2 x}\\)</p>
+            <p><strong>1(b)</strong> \\(y' = \\cos(x^x)\\,x^x(\\ln x + 1)\\)</p>
+            <p><strong>2(a)</strong> \\(\\dfrac{9}{2}\\)</p>
+            <p><strong>2(b)</strong> \\(A=-3\\), and the limit is \\(2\\)</p>
+            <p><strong>3(a)</strong> \\(-1\\)</p>
+            <p><strong>3(b)</strong> \\(0\\)</p>
+            <p><strong>3(c)</strong> \\(-\\pi/4\\)</p>
+            <p><strong>3(d)</strong> \\(\\pi/6\\)</p>
+            <p><strong>3(e)</strong> \\(-\\pi/2\\)</p>
+            <p><strong>4</strong> Initial population \\(=200\\). Time to reach 1000: \\(t=\\frac{\\ln 5}{2}\\). Rate after 3 days: \\(P'(3)=400e^6\\)</p>
+            <p><strong>5</strong> \\(\\sqrt{1-9x^2}\\)</p>
+            <p><strong>6</strong> \\(\\displaystyle \\frac{x^2\\sin(3x)}{3}+\\frac{2x\\cos(3x)}{9}-\\frac{2\\sin(3x)}{27}+C\\)</p>
+            <p><strong>7</strong> \\(\\displaystyle \\frac{\\cos^7 x}{7}-\\frac{2\\cos^9 x}{9}+\\frac{\\cos^{11}x}{11}+C\\)</p>
+            <p><strong>8</strong> \\(\\displaystyle \\frac{9}{2}\\arcsin\\!\\left(\\frac{x}{3}\\right)-\\frac{x}{2}\\sqrt{9-x^2}+C\\)</p>
+            <p><strong>9</strong> \\(\\displaystyle -2\\ln|x|+\\frac{9}{2}\\ln(x^2+1)-2\\arctan(x)+C\\)</p>
+            <p><strong>10</strong> Converges to \\(\\dfrac{1}{5}\\)</p>
+          </div>
+        </details>
+        <details>
+          <summary>Problems 11-20 answers</summary>
+          <div style="margin-top:12px;">
+            <p><strong>11</strong> \\(y' = 4 + \\dfrac{5}{5x-1} + \\dfrac{\\cosh x}{1+\\sinh^2 x}\\)</p>
+            <p><strong>12</strong> \\(y' = -\\sin(x^x)\\,x^x(\\ln x+1)\\)</p>
+            <p><strong>13</strong> \\(8\\)</p>
+            <p><strong>14</strong> \\(A=6\\), limit \\(=-1\\)</p>
+            <p><strong>15</strong> \\(1/2\\)</p>
+            <p><strong>16</strong> \\(\\pi/6\\)</p>
+            <p><strong>17</strong> \\(\\pi/4\\)</p>
+            <p><strong>18</strong> \\(\\dfrac{2x}{\\sqrt{1+4x^2}}\\)</p>
+            <p><strong>19</strong> Initial population \\(=350\\), reaching 2000 at \\(t=\\dfrac{1}{1.5}\\ln\\!\\left(\\dfrac{40}{7}\\right)\\)</p>
+            <p><strong>20</strong> \\(P'(t)=96e^{0.8t}\\), so \\(P'(4)=96e^{3.2}\\)</p>
+          </div>
+        </details>
+        <details>
+          <summary>Problems 21-30 answers</summary>
+          <div style="margin-top:12px;">
+            <p><strong>21</strong> \\(\\displaystyle \\frac{1}{2}xe^{2x}-\\frac{1}{4}e^{2x}+C\\)</p>
+            <p><strong>22</strong> \\(\\displaystyle -\\frac{x^2\\cos(2x)}{2}+\\frac{x\\sin(2x)}{2}+\\frac{\\cos(2x)}{4}+C\\)</p>
+            <p><strong>23</strong> \\(\\displaystyle \\frac{x^2}{2}\\ln x-\\frac{x^2}{4}+C\\)</p>
+            <p><strong>24</strong> \\(\\displaystyle \\frac{e^x(\\sin x+\\cos x)}{2}+C\\)</p>
+            <p><strong>25</strong> \\(\\displaystyle \\frac{\\cos^5 x}{5}-\\frac{\\cos^7 x}{7}+C\\)</p>
+            <p><strong>26</strong> \\(\\displaystyle \\frac{\\sin^3 x}{3}-\\frac{2\\sin^5 x}{5}+\\frac{\\sin^7 x}{7}+C\\)</p>
+            <p><strong>27</strong> \\(\\displaystyle \\frac{x}{8}-\\frac{\\sin(4x)}{32}+C\\)</p>
+            <p><strong>28</strong> \\(\\displaystyle \\frac12\\sec x\\tan x+\\frac12\\ln|\\sec x+\\tan x|+C\\)</p>
+            <p><strong>29</strong> \\(\\sec x + C\\)</p>
+            <p><strong>30</strong> \\(-\\csc x + C\\)</p>
+          </div>
+        </details>
+        <details>
+          <summary>Problems 31-40 answers</summary>
+          <div style="margin-top:12px;">
+            <p><strong>31</strong> \\(\\arcsin(x/4)+C\\)</p>
+            <p><strong>32</strong> \\(\\displaystyle \\frac{25}{2}\\arcsin\\!\\left(\\frac{x}{5}\\right)-\\frac{x}{2}\\sqrt{25-x^2}+C\\)</p>
+            <p><strong>33</strong> \\(\\displaystyle \\frac{1}{3}\\sec^{-1}\\!\\left(\\frac{|x|}{3}\\right)+C\\)</p>
+            <p><strong>34</strong> \\(\\displaystyle \\frac{x}{2}\\sqrt{9-x^2}+\\frac{9}{2}\\arcsin\\!\\left(\\frac{x}{3}\\right)+C\\)</p>
+            <p><strong>35</strong> \\(\\displaystyle \\frac{5}{2}\\ln|x|+\\frac{1}{2}\\ln|x+2|+C\\)</p>
+            <p><strong>36</strong> \\(\\displaystyle \\frac{11}{5}\\ln|x-2|-\\frac{1}{5}\\ln|x+3|+C\\)</p>
+            <p><strong>37</strong> \\(\\ln|x|-\\frac{1}{x-1}+\\frac{1}{x+1}+C\\)</p>
+            <p><strong>38</strong> \\(\\displaystyle \\frac{5}{4}\\ln\\left|\\frac{x-2}{x+2}\\right|+C\\)</p>
+            <p><strong>39</strong> \\(\\displaystyle -\\frac14\\ln|x|+\\frac18\\ln(x^2+4)+\\frac72\\arctan(x/2)+C\\)</p>
+            <p><strong>40</strong> \\(\\displaystyle \\frac{1}{6}\\ln\\left|\\frac{x-3}{x+3}\\right|+C\\)</p>
+          </div>
+        </details>
+        <details>
+          <summary>Problems 41-50 answers</summary>
+          <div style="margin-top:12px;">
+            <p><strong>41</strong> Converges to \\(1\\)</p>
+            <p><strong>42</strong> Diverges</p>
+            <p><strong>43</strong> Converges to \\(2\\)</p>
+            <p><strong>44</strong> Converges to \\(1\\)</p>
+            <p><strong>45</strong> Converges to \\(2\\)</p>
+            <p><strong>46</strong> Diverges</p>
+            <p><strong>47</strong> Converges to \\(1\\)</p>
+            <p><strong>48</strong> Diverges</p>
+            <p><strong>49</strong> \\(\\displaystyle \\frac{x}{2}(\\sin(\\ln x)+\\cos(\\ln x))+C\\)</p>
+            <p><strong>50</strong> \\(\\displaystyle \\frac{x}{2}(\\sin(\\ln(2x))-\\cos(\\ln(2x)))+C\\)</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Formula Sheet</h2>
+        <span class="pill">Quick review</span>
+      </div>
+      <div class="formula-box">
+        <div class="formula-list">
+          <div class="formula-item">\(\sin^2(x)=\frac{1}{2}(1-\cos(2x))\)</div>
+          <div class="formula-item">\(\cos^2(x)=\frac{1}{2}(1+\cos(2x))\)</div>
+          <div class="formula-item">\(\sin(2x)=2\sin(x)\cos(x)\)</div>
+          <div class="formula-item">\(\sin^2(x)+\cos^2(x)=1\)</div>
+          <div class="formula-item">\(1+\tan^2(x)=\sec^2(x)\)</div>
+          <div class="formula-item">\(\displaystyle \int \sec(x)\,dx = \ln|\sec(x)+\tan(x)|+C\)</div>
+          <div class="formula-item">\(\displaystyle \int \sec^3(x)\,dx = \frac12\sec(x)\tan(x)+\frac12\ln|\sec(x)+\tan(x)|+C\)</div>
+          <div class="formula-item">\(\displaystyle \int \csc(x)\,dx = \ln|\csc(x)-\cot(x)|+C\)</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card">
+        <h2>Study Notes</h2>
+        <ul>
+          <li>Difficulty varies on purpose. This is not a uniform set.</li>
+          <li>The hardest problems are mostly in integration by parts, trig integrals, trig substitution, partial fractions, and improper integrals.</li>
+          <li>For the improper integrals, always identify where the problem becomes improper before evaluating.</li>
+          <li>For any substitution problem, keep your preferred habit of back-substituting before final evaluation.</li>
+        </ul>
+        <p class="footer-note">Built as a single-file practice page for GitHub Pages.</p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
