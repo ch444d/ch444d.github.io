@@ -1,0 +1,2535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calc 2 Final Exam Prep — 100 Practice Problems</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #d8e0ea;
+      --soft: #f8fafc;
+      --accent: #274c77;
+      --accent-2: #6096ba;
+      --answer-bg: #eef8f0;
+      --answer-border: #bddfc5;
+      --shadow: 0 10px 26px rgba(16, 24, 40, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, #eaf1fa 0, var(--bg) 280px);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 44px 18px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      letter-spacing: -0.045em;
+    }
+
+    header p {
+      max-width: 830px;
+      margin: 14px auto 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      max-width: 1120px;
+      margin: 0 auto 20px;
+      padding: 14px 18px;
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) 180px 220px auto;
+      gap: 10px;
+      background: rgba(244, 247, 251, 0.88);
+      backdrop-filter: blur(10px);
+    }
+
+    input,
+    select,
+    button {
+      font: inherit;
+    }
+
+    .search,
+    select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 13px;
+      background: white;
+      color: var(--ink);
+      box-shadow: 0 2px 8px rgba(16, 24, 40, 0.04);
+    }
+
+    .utility,
+    .toggle {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 14px;
+      cursor: pointer;
+      color: white;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .utility {
+      background: var(--accent);
+      white-space: nowrap;
+    }
+
+    .toggle {
+      margin-top: 14px;
+      background: var(--accent-2);
+    }
+
+    .utility:hover,
+    .toggle:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto 60px;
+      padding: 0 18px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid rgba(216, 224, 234, 0.9);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      background: #e6eef8;
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .topic {
+      color: var(--muted);
+      font-size: 0.86rem;
+      text-align: right;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.22rem;
+      letter-spacing: -0.015em;
+    }
+
+    .problem-text {
+      background: var(--soft);
+      border: 1px solid #edf1f6;
+      border-radius: 16px;
+      padding: 14px;
+      min-height: 98px;
+      overflow-x: auto;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 14px;
+      background: var(--answer-bg);
+      border: 1px solid var(--answer-border);
+      border-radius: 16px;
+      padding: 14px;
+      overflow-x: auto;
+    }
+
+    .answer.open {
+      display: block;
+    }
+
+    .answer-title {
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #22543d;
+    }
+
+    mjx-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 28px 18px 48px;
+    }
+
+    @media (max-width: 800px) {
+      .toolbar {
+        position: static;
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .toolbar,
+      .toggle {
+        display: none;
+      }
+
+      header {
+        padding-bottom: 10px;
+      }
+
+      main {
+        display: block;
+      }
+
+      .card {
+        box-shadow: none;
+        break-inside: avoid;
+        margin-bottom: 14px;
+      }
+
+      .answer {
+        display: block !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Calc 2 Final Exam Prep</h1>
+    <p>100 practice problems modeled after your Exam 1, Exam 2, and Exam 3 problem styles. Each problem includes a hidden answer.</p>
+  </header>
+
+  <section class="toolbar">
+    <input class="search" id="searchBox" placeholder="Search problem, topic, or keyword..." oninput="filterCards()" />
+
+    <select id="examFilter" onchange="filterCards()">
+      <option value="all">All exam styles</option>
+      <option value="Exam 1">Exam 1 style</option>
+      <option value="Exam 2">Exam 2 style</option>
+      <option value="Exam 3">Exam 3 style</option>
+    </select>
+
+    <select id="topicFilter" onchange="filterCards()">
+      <option value="all">All topics</option>
+      <option value="Alternating Series">Alternating Series</option><option value="Arc Length">Arc Length</option><option value="Area Between Curves">Area Between Curves</option><option value="Comparison">Comparison</option><option value="Derivative">Derivative</option><option value="Derivatives">Derivatives</option><option value="Divergence Test">Divergence Test</option><option value="Geometric Series">Geometric Series</option><option value="Improper Integral">Improper Integral</option><option value="Integral Test">Integral Test</option><option value="Integration">Integration</option><option value="Integration by Parts">Integration by Parts</option><option value="Inverse Function">Inverse Function</option><option value="Inverse Trig">Inverse Trig</option><option value="L&#x27;Hospital">L&#x27;Hospital</option><option value="Limit Comparison">Limit Comparison</option><option value="Log Differentiation">Log Differentiation</option><option value="Partial Fractions">Partial Fractions</option><option value="Power Series">Power Series</option><option value="Ratio Test">Ratio Test</option><option value="Root Test">Root Test</option><option value="Second Derivative">Second Derivative</option><option value="Sequence">Sequence</option><option value="Series Test Choice">Series Test Choice</option><option value="Shells">Shells</option><option value="Square Cross Sections">Square Cross Sections</option><option value="Surface Area">Surface Area</option><option value="Tangent Line">Tangent Line</option><option value="Taylor Polynomial">Taylor Polynomial</option><option value="Triangle Identity">Triangle Identity</option><option value="Trig Integral">Trig Integral</option><option value="Trig Substitution">Trig Substitution</option><option value="Volume">Volume</option><option value="Washers">Washers</option><option value="Washers/Shells">Washers/Shells</option><option value="Work">Work</option><option value="p-Series">p-Series</option>
+    </select>
+
+    <button class="utility" type="button" onclick="shuffleCards()">Shuffle</button>
+  </section>
+
+  <main id="problemGrid">
+    
+      <article class="card" data-topic="Area Between Curves" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Area Between Curves</span>
+        </div>
+
+        <h2>Problem 1</h2>
+
+        <div class="problem-text">
+          Find the area between \(f(x)=3x^2\) and \(g(x)=x^2+8\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Intersections: \(3x^2=x^2+8\Rightarrow 2x^2=8\Rightarrow x=\pm2\). Area: \(\int_{-2}^{2}[(x^2+8)-3x^2]\,dx=\int_{-2}^{2}(8-2x^2)\,dx=\frac{64}{3}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Area Between Curves" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Area Between Curves</span>
+        </div>
+
+        <h2>Problem 2</h2>
+
+        <div class="problem-text">
+          Find the area between \(y=x^2-4\) and \(y=2x\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Intersections: \(x^2-4=2x\Rightarrow x=-2,4\). Area: \(\int_{-2}^{4}[2x-(x^2-4)]\,dx=36\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Area Between Curves" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Area Between Curves</span>
+        </div>
+
+        <h2>Problem 3</h2>
+
+        <div class="problem-text">
+          Find the area enclosed by \(y=9-x^2\) and \(y=x+3\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Intersections: \(9-x^2=x+3\Rightarrow x=-3,2\). Area: \(\int_{-3}^{2}[(9-x^2)-(x+3)]\,dx=\frac{125}{6}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Square Cross Sections" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Square Cross Sections</span>
+        </div>
+
+        <h2>Problem 4</h2>
+
+        <div class="problem-text">
+          Set up, but do not evaluate, the volume integral for square cross sections perpendicular to the \(x\)-axis over the region bounded by \(y=x^2\) and \(y=4\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Side length \(s=4-x^2\), \(x\in[-2,2]\). Volume: \(\displaystyle V=\int_{-2}^{2}(4-x^2)^2\,dx\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Square Cross Sections" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Square Cross Sections</span>
+        </div>
+
+        <h2>Problem 5</h2>
+
+        <div class="problem-text">
+          Set up, but do not evaluate, the volume integral for square cross sections perpendicular to the \(x\)-axis over the region bounded by \(y=x+6\) and \(y=x^2\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Intersections: \(x^2=x+6\Rightarrow x=-2,3\). Side length \(s=(x+6)-x^2\). \(\displaystyle V=\int_{-2}^{3}[(x+6)-x^2]^2\,dx\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Washers" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Washers</span>
+        </div>
+
+        <h2>Problem 6</h2>
+
+        <div class="problem-text">
+          Set up, but do not evaluate, the washer-method volume when the region bounded by \(y=\sqrt{x}\), \(y=0\), and \(x=9\) is rotated about the \(y\)-axis.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Use horizontal washers. \(x=y^2\), \(0\le y\le3\). Outer radius \(R=9\), inner radius \(r=y^2\). \(\displaystyle V=\pi\int_{0}^{3}(9^2-(y^2)^2)\,dy\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Shells" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Shells</span>
+        </div>
+
+        <h2>Problem 7</h2>
+
+        <div class="problem-text">
+          Set up, but do not evaluate, the shell-method volume when the region bounded by \(y=\sqrt{x}\), \(y=0\), and \(x=9\) is rotated about the \(y\)-axis.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Vertical shells: radius \(x\), height \(\sqrt{x}\), \(0\le x\le9\). \(\displaystyle V=2\pi\int_{0}^{9}x\sqrt{x}\,dx\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Washers/Shells" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Washers/Shells</span>
+        </div>
+
+        <h2>Problem 8</h2>
+
+        <div class="problem-text">
+          Set up, but do not evaluate, the volume when the region bounded by \(y=\sqrt{x}\), \(y=0\), and \(x=9\) is rotated about \(x=-1\). Use shells.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Vertical shells: radius \(x+1\), height \(\sqrt{x}\), \(0\le x\le9\). \(\displaystyle V=2\pi\int_{0}^{9}(x+1)\sqrt{x}\,dx\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Washers" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Washers</span>
+        </div>
+
+        <h2>Problem 9</h2>
+
+        <div class="problem-text">
+          Set up, but do not evaluate, the washer-method volume for the region bounded by \(y=x^2\), \(y=0\), and \(x=3\), rotated about the \(x\)-axis.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Outer radius \(R=x^2\), inner radius \(0\). \(\displaystyle V=\pi\int_0^3 (x^2)^2\,dx\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Shells" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Shells</span>
+        </div>
+
+        <h2>Problem 10</h2>
+
+        <div class="problem-text">
+          Set up, but do not evaluate, the shell-method volume for the region bounded by \(y=x^2\), \(y=0\), and \(x=3\), rotated about the \(y\)-axis.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Radius \(x\), height \(x^2\). \(\displaystyle V=2\pi\int_0^3 x(x^2)\,dx\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Work" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Work</span>
+        </div>
+
+        <h2>Problem 11</h2>
+
+        <div class="problem-text">
+          A \(20\text{ m}\) cable with mass \(80\text{ kg}\) hangs vertically from a roof. Find the work required to lift the cable to the roof. Use \(g=9.8\text{ m/s}^2\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Linear density \(\lambda=80/20=4\text{ kg/m}\). Let \(x\) be distance below roof. \(\displaystyle W=\int_0^{20}9.8(4)x\,dx=7840\text{ J}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Work" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Work</span>
+        </div>
+
+        <h2>Problem 12</h2>
+
+        <div class="problem-text">
+          A \(40\text{ m}\) cable with mass \(200\text{ kg}\) hangs vertically from a building. Find the work required to lift the cable to the top. Use \(g=9.8\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\lambda=200/40=5\). \(\displaystyle W=\int_0^{40}9.8(5)x\,dx=39200\text{ J}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Work" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Work</span>
+        </div>
+
+        <h2>Problem 13</h2>
+
+        <div class="problem-text">
+          A \(25\text{ m}\) cable with mass \(100\text{ kg}\) has a \(50\text{ kg}\) bucket attached to its end. Find the total work to lift everything to the top. Use \(g=9.8\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Cable work: \(\lambda=4\), \(\int_0^{25}9.8(4)x\,dx=12250\). Bucket work: \(50(9.8)(25)=12250\). Total \(24500\text{ J}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Inverse Function" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Inverse Function</span>
+        </div>
+
+        <h2>Problem 14</h2>
+
+        <div class="problem-text">
+          Find \(f^{-1}(x)\) and \(\dfrac{d}{dx}f^{-1}(x)\) for \(f(x)=x^3+5\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(y=x^3+5\Rightarrow x=\sqrt[3]{y-5}\). So \(f^{-1}(x)=\sqrt[3]{x-5}\). Derivative: \(\displaystyle (f^{-1})'(x)=\frac{1}{3}(x-5)^{-2/3}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Inverse Function" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Inverse Function</span>
+        </div>
+
+        <h2>Problem 15</h2>
+
+        <div class="problem-text">
+          Find \(f^{-1}(x)\) and \(\dfrac{d}{dx}f^{-1}(x)\) for \(f(x)=2x^3-1\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(f^{-1}(x)=\sqrt[3]{\frac{x+1}{2}}\). Derivative: \(\displaystyle (f^{-1})'(x)=\frac{1}{6}\left(\frac{x+1}{2}\right)^{-2/3}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Second Derivative" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Second Derivative</span>
+        </div>
+
+        <h2>Problem 16</h2>
+
+        <div class="problem-text">
+          Find \(f''(x)\) for \(f(x)=e^{\cos x}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(f'(x)=-\sin x\,e^{\cos x}\). \(\displaystyle f''(x)=e^{\cos x}(\sin^2x-\cos x)\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Second Derivative" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Second Derivative</span>
+        </div>
+
+        <h2>Problem 17</h2>
+
+        <div class="problem-text">
+          Find \(f''(x)\) for \(f(x)=e^{3x}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(f'(x)=3e^{3x}\), so \(\displaystyle f''(x)=9e^{3x}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Second Derivative" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Second Derivative</span>
+        </div>
+
+        <h2>Problem 18</h2>
+
+        <div class="problem-text">
+          Find \(f''(x)\) for \(f(x)=\ln(x^2+1)\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(f'(x)=\frac{2x}{x^2+1}\). \(\displaystyle f''(x)=\frac{2-2x^2}{(x^2+1)^2}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Tangent Line" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Tangent Line</span>
+        </div>
+
+        <h2>Problem 19</h2>
+
+        <div class="problem-text">
+          Find the tangent line to \(f(x)=e^{3x}\) at \(x=2\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(f(2)=e^6\), \(f'(x)=3e^{3x}\), \(f'(2)=3e^6\). Tangent line: \(\displaystyle y-e^6=3e^6(x-2)\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Tangent Line" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Tangent Line</span>
+        </div>
+
+        <h2>Problem 20</h2>
+
+        <div class="problem-text">
+          Find the tangent line to \(f(x)=\ln x\) at \(x=e^2\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(f(e^2)=2\), \(f'(x)=1/x\), \(f'(e^2)=e^{-2}\). Tangent line: \(\displaystyle y-2=e^{-2}(x-e^2)\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Integration" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Integration</span>
+        </div>
+
+        <h2>Problem 21</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \left(e^{-2x}+4x^3+\sqrt{x}\right)\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle -\frac12e^{-2x}+x^4+\frac{2}{3}x^{3/2}+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Integration" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Integration</span>
+        </div>
+
+        <h2>Problem 22</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int 5x^4 e^{x^5}\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Let \(u=x^5\), \(du=5x^4dx\). Answer: \(\displaystyle e^{x^5}+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Integration" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Integration</span>
+        </div>
+
+        <h2>Problem 23</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int 6x^2\cos(x^3)\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Let \(u=x^3\), \(du=3x^2dx\). Answer: \(\displaystyle 2\sin(x^3)+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Integration" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Integration</span>
+        </div>
+
+        <h2>Problem 24</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \frac{2x}{x^2+7}\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Let \(u=x^2+7\). Answer: \(\displaystyle \ln|x^2+7|+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Integration" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Integration</span>
+        </div>
+
+        <h2>Problem 25</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int x\sqrt{x^2+4}\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Let \(u=x^2+4\), \(du=2x\,dx\). Answer: \(\displaystyle \frac13(x^2+4)^{3/2}+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Area Between Curves" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Area Between Curves</span>
+        </div>
+
+        <h2>Problem 26</h2>
+
+        <div class="problem-text">
+          Find the area between \(y=2x^2\) and \(y=10-x^2\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Intersections: \(2x^2=10-x^2\Rightarrow x=\pm\sqrt{10/3}\). Area: \(\displaystyle \int_{-\sqrt{10/3}}^{\sqrt{10/3}}(10-3x^2)\,dx=\frac{40}{3}\sqrt{\frac{10}{3}}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Volume" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Volume</span>
+        </div>
+
+        <h2>Problem 27</h2>
+
+        <div class="problem-text">
+          Set up, but do not evaluate, the volume when the region bounded by \(y=x\), \(y=0\), and \(x=5\) is rotated about the \(x\)-axis.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Disk method: \(\displaystyle V=\pi\int_0^5 x^2\,dx\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Volume" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Volume</span>
+        </div>
+
+        <h2>Problem 28</h2>
+
+        <div class="problem-text">
+          Set up, but do not evaluate, the shell-method volume when the region bounded by \(y=x\), \(y=0\), and \(x=5\) is rotated about the \(y\)-axis.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Shells: radius \(x\), height \(x\). \(\displaystyle V=2\pi\int_0^5 x^2\,dx\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Work" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Work</span>
+        </div>
+
+        <h2>Problem 29</h2>
+
+        <div class="problem-text">
+          A \(10\text{ m}\) chain weighs \(6\text{ N/m}\). Find the work required to lift the whole chain to the top.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle W=\int_0^{10}6x\,dx=300\text{ J}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Derivative" data-exam="Exam 1">
+        <div class="card-top">
+          <span class="badge">Exam 1 style</span>
+          <span class="topic">Derivative</span>
+        </div>
+
+        <h2>Problem 30</h2>
+
+        <div class="problem-text">
+          Find \(f''(x)\) for \(f(x)=e^{\sin(2x)}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(f'(x)=2\cos(2x)e^{\sin(2x)}\). \(\displaystyle f''(x)=e^{\sin(2x)}[4\cos^2(2x)-4\sin(2x)]\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Derivatives" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Derivatives</span>
+        </div>
+
+        <h2>Problem 31</h2>
+
+        <div class="problem-text">
+          Find \(\dfrac{dy}{dx}\) for \(y=5^x\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle y'=5^x\ln 5\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Derivatives" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Derivatives</span>
+        </div>
+
+        <h2>Problem 32</h2>
+
+        <div class="problem-text">
+          Find \(\dfrac{dy}{dx}\) for \(y=\ln(x^2+4x)+\sin^{-1}(x)\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle y'=\frac{2x+4}{x^2+4x}+\frac{1}{\sqrt{1-x^2}}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Derivatives" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Derivatives</span>
+        </div>
+
+        <h2>Problem 33</h2>
+
+        <div class="problem-text">
+          Find \(\dfrac{dy}{dx}\) for \(y=x^3+\tan^{-1}(4x)\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle y'=3x^2+\frac{4}{1+16x^2}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Log Differentiation" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Log Differentiation</span>
+        </div>
+
+        <h2>Problem 34</h2>
+
+        <div class="problem-text">
+          Find \(\dfrac{dy}{dx}\) for \(y=x^{\sin x}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Take logs: \(\ln y=\sin x\ln x\). Thus \(\displaystyle y'=x^{\sin x}\left(\cos x\ln x+\frac{\sin x}{x}\right)\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Log Differentiation" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Log Differentiation</span>
+        </div>
+
+        <h2>Problem 35</h2>
+
+        <div class="problem-text">
+          Find \(\dfrac{dy}{dx}\) for \(y=x^{\ln x}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\ln y=(\ln x)^2\). Thus \(\displaystyle y'=x^{\ln x}\frac{2\ln x}{x}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="L&#x27;Hospital" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">L&#x27;Hospital</span>
+        </div>
+
+        <h2>Problem 36</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \lim_{x\to0}\frac{1-\cos(4x)}{x^2}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Using known limit or L'Hospital twice: \(\displaystyle 8\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="L&#x27;Hospital" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">L&#x27;Hospital</span>
+        </div>
+
+        <h2>Problem 37</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \lim_{x\to0}\frac{\sin(7x)}{3x}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle \frac{7}{3}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="L&#x27;Hospital" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">L&#x27;Hospital</span>
+        </div>
+
+        <h2>Problem 38</h2>
+
+        <div class="problem-text">
+          Find \(A\) so L'Hospital applies, then evaluate \(\displaystyle \lim_{x\to2}\frac{x^2-5x+A}{x-2}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Need numerator \(=0\) at \(x=2\): \(4-10+A=0\Rightarrow A=6\). Limit \(=\lim_{x\to2}(2x-5)= -1\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Inverse Trig" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Inverse Trig</span>
+        </div>
+
+        <h2>Problem 39</h2>
+
+        <div class="problem-text">
+          Compute \(\sin(\arcsin(1/2))\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle \frac12\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Inverse Trig" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Inverse Trig</span>
+        </div>
+
+        <h2>Problem 40</h2>
+
+        <div class="problem-text">
+          Compute \(\arcsin(\sin(3\pi/2))\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\sin(3\pi/2)=-1\), so \(\arcsin(-1)=-\frac{\pi}{2}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Inverse Trig" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Inverse Trig</span>
+        </div>
+
+        <h2>Problem 41</h2>
+
+        <div class="problem-text">
+          Compute \(\arctan(\cos \pi)\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\cos\pi=-1\), so \(\arctan(-1)=-\frac{\pi}{4}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Inverse Trig" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Inverse Trig</span>
+        </div>
+
+        <h2>Problem 42</h2>
+
+        <div class="problem-text">
+          Compute \(\arcsin(\cos 0)\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\cos0=1\), so \(\arcsin(1)=\frac{\pi}{2}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Triangle Identity" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Triangle Identity</span>
+        </div>
+
+        <h2>Problem 43</h2>
+
+        <div class="problem-text">
+          Simplify \(\cos(\tan^{-1}(5x))\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Let \(\theta=\tan^{-1}(5x)\), so \(\tan\theta=5x=\frac{5x}{1}\). Hypotenuse \(=\sqrt{25x^2+1}\). Thus \(\displaystyle \cos\theta=\frac{1}{\sqrt{25x^2+1}}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Triangle Identity" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Triangle Identity</span>
+        </div>
+
+        <h2>Problem 44</h2>
+
+        <div class="problem-text">
+          Simplify \(\sin(\tan^{-1}(2x))\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Let \(\theta=\tan^{-1}(2x)\). Opposite \(2x\), adjacent \(1\), hypotenuse \(\sqrt{4x^2+1}\). \(\displaystyle \sin\theta=\frac{2x}{\sqrt{4x^2+1}}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Integration by Parts" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Integration by Parts</span>
+        </div>
+
+        <h2>Problem 45</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int x e^{4x}\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle \int xe^{4x}dx=\frac{x e^{4x}}{4}-\frac{e^{4x}}{16}+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Integration by Parts" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Integration by Parts</span>
+        </div>
+
+        <h2>Problem 46</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int x^2 e^{2x}\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle e^{2x}\left(\frac{x^2}{2}-\frac{x}{2}+\frac14\right)+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Integration by Parts" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Integration by Parts</span>
+        </div>
+
+        <h2>Problem 47</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int x\ln x\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle \frac{x^2}{2}\ln x-\frac{x^2}{4}+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Integration by Parts" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Integration by Parts</span>
+        </div>
+
+        <h2>Problem 48</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int x^2\ln x\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle \frac{x^3}{3}\ln x-\frac{x^3}{9}+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Trig Integral" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Trig Integral</span>
+        </div>
+
+        <h2>Problem 49</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \sec^2 x\tan^3 x\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Let \(u=\tan x\), \(du=\sec^2x\,dx\). Answer: \(\displaystyle \frac{\tan^4x}{4}+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Trig Integral" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Trig Integral</span>
+        </div>
+
+        <h2>Problem 50</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \sec^4 x\tan x\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Write \(\sec^4x=\sec^2x\sec^2x\). Let \(u=\sec x\), \(du=\sec x\tan x\,dx\), or use \(u=\tan x\): \(\sec^2x=1+\tan^2x\). Answer: \(\displaystyle \frac12\sec^4x+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Trig Integral" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Trig Integral</span>
+        </div>
+
+        <h2>Problem 51</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \sin^3x\cos x\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Let \(u=\sin x\). Answer: \(\displaystyle \frac{\sin^4x}{4}+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Trig Integral" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Trig Integral</span>
+        </div>
+
+        <h2>Problem 52</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \cos^2x\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Use \(\cos^2x=\frac{1+\cos2x}{2}\). Answer: \(\displaystyle \frac{x}{2}+\frac{\sin2x}{4}+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Trig Substitution" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Trig Substitution</span>
+        </div>
+
+        <h2>Problem 53</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \frac{1}{\sqrt{x^2+16}}\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle \ln|x+\sqrt{x^2+16}|+C\). Equivalently, \(\sinh^{-1}(x/4)+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Trig Substitution" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Trig Substitution</span>
+        </div>
+
+        <h2>Problem 54</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \frac{1}{\sqrt{25-x^2}}\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle \sin^{-1}\left(\frac{x}{5}\right)+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Trig Substitution" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Trig Substitution</span>
+        </div>
+
+        <h2>Problem 55</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \frac{1}{x^2+9}\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle \frac13\tan^{-1}\left(\frac{x}{3}\right)+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Trig Substitution" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Trig Substitution</span>
+        </div>
+
+        <h2>Problem 56</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \sqrt{x^2+4}\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle \frac{x}{2}\sqrt{x^2+4}+2\ln|x+\sqrt{x^2+4}|+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Partial Fractions" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Partial Fractions</span>
+        </div>
+
+        <h2>Problem 57</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \frac{3x+5}{x(x+2)}\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\frac{3x+5}{x(x+2)}=\frac{5/2}{x}+\frac{1/2}{x+2}\). Answer: \(\displaystyle \frac52\ln|x|+\frac12\ln|x+2|+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Partial Fractions" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Partial Fractions</span>
+        </div>
+
+        <h2>Problem 58</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \frac{x+4}{x^2+3x+2}\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(x^2+3x+2=(x+1)(x+2)\). \(\frac{x+4}{(x+1)(x+2)}=\frac{3}{x+1}-\frac{2}{x+2}\). Answer: \(\displaystyle 3\ln|x+1|-2\ln|x+2|+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Partial Fractions" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Partial Fractions</span>
+        </div>
+
+        <h2>Problem 59</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \frac{2x^2+x+1}{x(x^2+1)}\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\frac{2x^2+x+1}{x(x^2+1)}=\frac1x+\frac{x+1}{x^2+1}\). Answer: \(\displaystyle \ln|x|+\frac12\ln(x^2+1)+\tan^{-1}x+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Partial Fractions" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Partial Fractions</span>
+        </div>
+
+        <h2>Problem 60</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \int \frac{4x^2-2x+6}{x(x^2+4)}\,dx\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\frac{4x^2-2x+6}{x(x^2+4)}=\frac{3/2}{x}+\frac{(5/2)x-2}{x^2+4}\). Answer: \(\displaystyle \frac32\ln|x|+\frac54\ln(x^2+4)-\tan^{-1}(x/2)+C\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Improper Integral" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Improper Integral</span>
+        </div>
+
+        <h2>Problem 61</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \int_0^\infty 6e^{-2x}\,dx\) converges. If so, find its value.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Converges. \(\displaystyle \int_0^\infty 6e^{-2x}dx=3\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Improper Integral" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Improper Integral</span>
+        </div>
+
+        <h2>Problem 62</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \int_1^\infty \frac{1}{x^2}\,dx\) converges. If so, find its value.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Converges. \(\displaystyle \int_1^\infty x^{-2}dx=1\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Improper Integral" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Improper Integral</span>
+        </div>
+
+        <h2>Problem 63</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \int_1^\infty \frac{1}{x}\,dx\) converges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Diverges because \(\displaystyle \int_1^b \frac1x dx=\ln b\to\infty\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Improper Integral" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">Improper Integral</span>
+        </div>
+
+        <h2>Problem 64</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \int_0^1 \frac{1}{\sqrt{x}}\,dx\) converges. If so, find its value.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Converges. \(\displaystyle \int_0^1 x^{-1/2}dx=2\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="L&#x27;Hospital" data-exam="Exam 2">
+        <div class="card-top">
+          <span class="badge">Exam 2 style</span>
+          <span class="topic">L&#x27;Hospital</span>
+        </div>
+
+        <h2>Problem 65</h2>
+
+        <div class="problem-text">
+          Evaluate \(\displaystyle \lim_{x\to\infty}\frac{3x^2+1}{7x^2-5x}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle \frac37\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Arc Length" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Arc Length</span>
+        </div>
+
+        <h2>Problem 66</h2>
+
+        <div class="problem-text">
+          Set up, but do not evaluate, the arc length integral for \(f(x)=e^{\cos x}\) on \([1,4]\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(f'(x)=-\sin x\,e^{\cos x}\). \(\displaystyle L=\int_1^4\sqrt{1+\left(-\sin x\,e^{\cos x}\right)^2}\,dx\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Surface Area" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Surface Area</span>
+        </div>
+
+        <h2>Problem 67</h2>
+
+        <div class="problem-text">
+          Set up, but do not evaluate, the surface area integral when \(f(x)=e^{\cos x}\) on \([1,4]\) is rotated about the \(x\)-axis.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle S=\int_1^4 2\pi e^{\cos x}\sqrt{1+\left(-\sin x\,e^{\cos x}\right)^2}\,dx\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Arc Length" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Arc Length</span>
+        </div>
+
+        <h2>Problem 68</h2>
+
+        <div class="problem-text">
+          Set up, but do not evaluate, the arc length integral for \(f(x)=x^3+2x-1\) on \([1,3]\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(f'(x)=3x^2+2\). \(\displaystyle L=\int_1^3\sqrt{1+(3x^2+2)^2}\,dx\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Surface Area" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Surface Area</span>
+        </div>
+
+        <h2>Problem 69</h2>
+
+        <div class="problem-text">
+          Set up, but do not evaluate, the surface area integral when \(f(x)=\sin x\) on \([0,2\pi]\) is rotated about the \(x\)-axis.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(f'(x)=\cos x\). \(\displaystyle S=\int_0^{2\pi}2\pi\sin x\sqrt{1+\cos^2x}\,dx\). If surface area requires radius nonnegative, use \(|\sin x|\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Taylor Polynomial" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Taylor Polynomial</span>
+        </div>
+
+        <h2>Problem 70</h2>
+
+        <div class="problem-text">
+          Find the third-degree Taylor polynomial for \(f(x)=e^x\) centered at \(x=1\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle T_3(x)=e+e(x-1)+\frac{e}{2}(x-1)^2+\frac{e}{6}(x-1)^3\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Taylor Polynomial" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Taylor Polynomial</span>
+        </div>
+
+        <h2>Problem 71</h2>
+
+        <div class="problem-text">
+          Find the third-degree Taylor polynomial for \(f(x)=\sin x\) centered at \(x=\frac{\pi}{6}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle T_3(x)=\frac12+\frac{\sqrt3}{2}\left(x-\frac{\pi}{6}\right)-\frac14\left(x-\frac{\pi}{6}\right)^2-\frac{\sqrt3}{12}\left(x-\frac{\pi}{6}\right)^3\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Taylor Polynomial" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Taylor Polynomial</span>
+        </div>
+
+        <h2>Problem 72</h2>
+
+        <div class="problem-text">
+          Find the third-degree Taylor polynomial for \(f(x)=\ln x\) centered at \(x=1\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle T_3(x)=(x-1)-\frac{(x-1)^2}{2}+\frac{(x-1)^3}{3}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Taylor Polynomial" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Taylor Polynomial</span>
+        </div>
+
+        <h2>Problem 73</h2>
+
+        <div class="problem-text">
+          Find the third-degree Taylor polynomial for \(f(x)=\cos x\) centered at \(x=0\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle T_3(x)=1-\frac{x^2}{2}\). The \(x^3\) term is \(0\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Sequence" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Sequence</span>
+        </div>
+
+        <h2>Problem 74</h2>
+
+        <div class="problem-text">
+          Determine whether \(a_n=\left(\frac{n+2}{4n}\right)^n\) converges. If it converges, find the value.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\displaystyle a_n=\left(\frac{1+2/n}{4}\right)^n\to0\), since the base approaches \(\frac14\). Converges to \(0\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Sequence" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Sequence</span>
+        </div>
+
+        <h2>Problem 75</h2>
+
+        <div class="problem-text">
+          Determine whether \(a_n=\frac{\sqrt{3n^4+1}}{2n^2+5n-1}\) converges. If it converges, find the value.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Dominant terms: numerator \(\sim \sqrt{3n^4}=\sqrt3\,n^2\), denominator \(\sim2n^2\). Limit \(=\frac{\sqrt3}{2}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Sequence" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Sequence</span>
+        </div>
+
+        <h2>Problem 76</h2>
+
+        <div class="problem-text">
+          Determine whether \(a_n=\sin\left(\frac{\pi n+3}{2n+7}\right)\) converges. If it converges, find the value.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            \(\frac{\pi n+3}{2n+7}\to\frac{\pi}{2}\). Thus \(a_n\to\sin(\pi/2)=1\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Geometric Series" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Geometric Series</span>
+        </div>
+
+        <h2>Problem 77</h2>
+
+        <div class="problem-text">
+          Explain why \(5+\frac{15}{2}+\frac{45}{4}+\frac{135}{8}+\cdots\) diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            This is geometric with ratio \(r=\frac{3}{2}\). Since \(|r|&gt;1\), it diverges.
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Geometric Series" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Geometric Series</span>
+        </div>
+
+        <h2>Problem 78</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty} 4\left(\frac{2}{3}\right)^n\) converges. If so, find the sum.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Geometric with \(r=\frac23\). First term at \(n=1\) is \(\frac83\). Sum \(=\frac{8/3}{1-2/3}=8\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="p-Series" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">p-Series</span>
+        </div>
+
+        <h2>Problem 79</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{1}{n^{3/2}}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Converges by p-series because \(p=\frac32&gt;1\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="p-Series" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">p-Series</span>
+        </div>
+
+        <h2>Problem 80</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{1}{\sqrt{n}}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Diverges by p-series because \(p=\frac12\le1\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Alternating Series" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Alternating Series</span>
+        </div>
+
+        <h2>Problem 81</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{(-1)^n}{n+4}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Converges by the Alternating Series Test because \(\frac{1}{n+4}\to0\) and is decreasing.
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Alternating Series" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Alternating Series</span>
+        </div>
+
+        <h2>Problem 82</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{(-1)^n n}{n^2+1}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Converges by AST since \(\frac{n}{n^2+1}\to0\) and eventually decreases. It is not absolutely convergent because it behaves like \(\frac1n\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Divergence Test" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Divergence Test</span>
+        </div>
+
+        <h2>Problem 83</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{5n^2+1}{2n^2+7}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Diverges by the divergence test because \(a_n\to\frac52\ne0\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Limit Comparison" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Limit Comparison</span>
+        </div>
+
+        <h2>Problem 84</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{4n^2+3}{7n^4+n+1}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Compare to \(\frac1{n^2}\). Limit comparison gives \(\frac{4}{7}\). Since \(\sum\frac1{n^2}\) converges, this converges.
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Limit Comparison" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Limit Comparison</span>
+        </div>
+
+        <h2>Problem 85</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{6n+1}{n^2+5}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Compare to \(\frac1n\). Limit comparison gives \(6\). Since harmonic series diverges, this diverges.
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Limit Comparison" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Limit Comparison</span>
+        </div>
+
+        <h2>Problem 86</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{n^3+2}{5n^5+1}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Behaves like \(\frac{n^3}{5n^5}=\frac1{5n^2}\). Converges by limit comparison with \(\sum\frac1{n^2}\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Comparison" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Comparison</span>
+        </div>
+
+        <h2>Problem 87</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{\sin^2 n+2}{n}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Since \(\sin^2 n+2\ge2\), \(\frac{\sin^2 n+2}{n}\ge\frac2n\). Diverges by comparison with harmonic series.
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Comparison" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Comparison</span>
+        </div>
+
+        <h2>Problem 88</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{\cos^2 n}{n^2}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Since \(0\le \cos^2 n\le1\), \(\frac{\cos^2 n}{n^2}\le\frac1{n^2}\). Converges by comparison.
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Ratio Test" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Ratio Test</span>
+        </div>
+
+        <h2>Problem 89</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{3^n}{n!}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Ratio test: \(L=\lim\frac{3^{n+1}}{(n+1)!}\frac{n!}{3^n}=\lim\frac{3}{n+1}=0&lt;1\). Converges.
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Ratio Test" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Ratio Test</span>
+        </div>
+
+        <h2>Problem 90</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{2^n n^n}{5^n n!}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Ratio test gives \(\displaystyle L=\frac{2}{5}e\). Since \(\frac{2e}{5}&gt;1\), the series diverges.
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Root Test" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Root Test</span>
+        </div>
+
+        <h2>Problem 91</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\left(\frac{n}{n+3}\right)^n\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Root test: \(L=\lim \frac{n}{n+3}=1\), inconclusive. But terms \(\left(\frac{n}{n+3}\right)^n=\left(\frac{1}{1+3/n}\right)^n\to e^{-3}\ne0\). Diverges by divergence test.
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Root Test" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Root Test</span>
+        </div>
+
+        <h2>Problem 92</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\left(\frac{2n+1}{5n}\right)^n\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Root test: \(L=\lim\frac{2n+1}{5n}=\frac25&lt;1\). Converges.
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Integral Test" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Integral Test</span>
+        </div>
+
+        <h2>Problem 93</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=2}^{\infty}\frac{1}{n\ln n}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Diverges by integral test: \(\int_2^\infty \frac{1}{x\ln x}dx=\ln(\ln x)\big|_2^\infty=\infty\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Integral Test" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Integral Test</span>
+        </div>
+
+        <h2>Problem 94</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=2}^{\infty}\frac{1}{n(\ln n)^2}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Converges by integral test: \(\int_2^\infty \frac{1}{x(\ln x)^2}dx\) converges.
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Power Series" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Power Series</span>
+        </div>
+
+        <h2>Problem 95</h2>
+
+        <div class="problem-text">
+          Find the radius and interval of convergence for \(\displaystyle \sum_{n=1}^{\infty}\frac{x^n}{n}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Radius \(R=1\). Endpoints: \(x=1\Rightarrow\sum1/n\) diverges; \(x=-1\Rightarrow\sum(-1)^n/n\) converges. Interval: \([-1,1)\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Power Series" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Power Series</span>
+        </div>
+
+        <h2>Problem 96</h2>
+
+        <div class="problem-text">
+          Find the radius and interval of convergence for \(\displaystyle \sum_{n=1}^{\infty}\frac{(x-2)^n}{n^2}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Radius \(R=1\). Endpoints: \(x=1\Rightarrow\sum(-1)^n/n^2\) converges; \(x=3\Rightarrow\sum1/n^2\) converges. Interval: \([1,3]\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Power Series" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Power Series</span>
+        </div>
+
+        <h2>Problem 97</h2>
+
+        <div class="problem-text">
+          Find the radius and interval of convergence for \(\displaystyle \sum_{n=0}^{\infty}\frac{3^n(x+1)^n}{n!}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Ratio test gives convergence for all \(x\). Radius \(R=\infty\), interval \((-\infty,\infty)\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Power Series" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Power Series</span>
+        </div>
+
+        <h2>Problem 98</h2>
+
+        <div class="problem-text">
+          Find the radius and interval of convergence for \(\displaystyle \sum_{n=1}^{\infty}\frac{n(x-4)^n}{2^n}\).
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Ratio/root test gives \(|x-4|/2&lt;1\Rightarrow 2&lt;x&lt;6\). At endpoints terms do not go to \(0\). Interval: \((2,6)\), radius \(R=2\).
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Series Test Choice" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Series Test Choice</span>
+        </div>
+
+        <h2>Problem 99</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{n!}{10^n}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Ratio test: \(L=\lim\frac{(n+1)!}{10^{n+1}}\frac{10^n}{n!}=\lim\frac{n+1}{10}=\infty\). Diverges.
+          </div>
+        </div>
+      </article>
+    
+      <article class="card" data-topic="Series Test Choice" data-exam="Exam 3">
+        <div class="card-top">
+          <span class="badge">Exam 3 style</span>
+          <span class="topic">Series Test Choice</span>
+        </div>
+
+        <h2>Problem 100</h2>
+
+        <div class="problem-text">
+          Determine whether \(\displaystyle \sum_{n=1}^{\infty}\frac{10^n}{n^n}\) converges or diverges.
+        </div>
+
+        <button class="toggle" type="button" onclick="toggleAnswer(this)">Show Answer</button>
+
+        <div class="answer">
+          <div class="answer-title">Answer</div>
+          <div class="answer-text">
+            Root test: \(L=\lim\sqrt[n]{10^n/n^n}=\lim\frac{10}{n}=0&lt;1\). Converges.
+          </div>
+        </div>
+      </article>
+    
+  </main>
+
+  <footer>
+    Print tip: answers automatically show when printing or saving as PDF.
+  </footer>
+
+  <script>
+    function toggleAnswer(button) {
+      const answer = button.nextElementSibling;
+      answer.classList.toggle('open');
+      button.textContent = answer.classList.contains('open') ? 'Hide Answer' : 'Show Answer';
+
+      if (window.MathJax) {
+        MathJax.typesetPromise([answer]);
+      }
+    }
+
+    function filterCards() {
+      const q = document.getElementById('searchBox').value.toLowerCase();
+      const exam = document.getElementById('examFilter').value;
+      const topic = document.getElementById('topicFilter').value;
+      const cards = document.querySelectorAll('.card');
+
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        const examMatch = exam === 'all' || card.dataset.exam === exam;
+        const topicMatch = topic === 'all' || card.dataset.topic === topic;
+        const searchMatch = text.includes(q);
+        card.style.display = examMatch && topicMatch && searchMatch ? '' : 'none';
+      });
+    }
+
+    function shuffleCards() {
+      const grid = document.getElementById('problemGrid');
+      const cards = Array.from(grid.children);
+
+      for (let i = cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cards[i], cards[j]] = [cards[j], cards[i]];
+      }
+
+      cards.forEach(card => grid.appendChild(card));
+
+      if (window.MathJax) {
+        MathJax.typesetPromise();
+      }
+    }
+  </script>
+</body>
+</html>
